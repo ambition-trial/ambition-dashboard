@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     'edc_protocol.apps.AppConfig',
     'edc_device.apps.AppConfig',
     'edc_navbar.apps.AppConfig',
+    'edc_action_item.apps.AppConfig',
+    'edc_lab.apps.AppConfig',
+    'edc_lab_dashboard.apps.AppConfig',
+    'edc_locator.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
     'edc_model_wrapper.apps.AppConfig',
     'ambition_dashboard.apps.EdcAppointmentAppConfig',
@@ -62,10 +66,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'edc_dashboard.middleware.DashboardMiddleware',
     'edc_subject_dashboard.middleware.DashboardMiddleware',
-    # 'edc_lab_dashboard.middleware.DashboardMiddleware',
-]
+    'edc_dashboard.middleware.DashboardMiddleware',
+    'edc_lab_dashboard.middleware.DashboardMiddleware']
+
 
 ROOT_URLCONF = 'ambition_dashboard.urls'
 

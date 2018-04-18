@@ -1,20 +1,7 @@
 from django.db import models
 from django.db.models.deletion import PROTECT
+from edc_appointment.models import Appointment
 from edc_base.model_mixins import BaseUuidModel
-
-
-class Appointment(BaseUuidModel):
-
-    visit_code = models.CharField(
-        max_length=25,
-        null=True,
-        editable=False)
-
-    appt_datetime = models.DateTimeField(
-        verbose_name=('Appointment date and time'),
-        db_index=True)
-
-    subject_identifier = models.CharField(max_length=25)
 
 
 class SubjectVisit(BaseUuidModel):
