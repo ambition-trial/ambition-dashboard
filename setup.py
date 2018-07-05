@@ -16,7 +16,7 @@ setup(
     author_email='ew2789@gmail.com',
     packages=find_packages(),
     include_package_data=True,
-    url='https://github.com/ambition-study/ambition-dashboard',
+    url='https://github.com/ambition-trail/ambition-dashboard',
     license='GPL license, see LICENSE',
     description='pivoted reference model for edc modules',
     long_description=README,
