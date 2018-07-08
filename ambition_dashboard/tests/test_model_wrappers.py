@@ -23,7 +23,6 @@ class TestModelWrappers(TestCase):
 
     model_wrapper_helper_cls = SubjectModelWrapperTestHelper
 
-    @tag('1')
     def test_subject_screening(self):
         helper = ScreeningModelWrapperTestHelper(
             model_wrapper=SubjectScreeningModelWrapper,
@@ -31,7 +30,6 @@ class TestModelWrappers(TestCase):
             screening_identifier='ABCDEFGH')
         helper.test(self)
 
-    @tag('1')
     def test_subject_consent(self):
         SubjectScreening.objects.create(
             screening_identifier='1234')
@@ -41,7 +39,6 @@ class TestModelWrappers(TestCase):
             subject_identifier='092-12345')
         helper.test(self)
 
-    @tag('1')
     def test_subject_locator(self):
         helper = self.model_wrapper_helper_cls(
             model_wrapper=SubjectLocatorModelWrapper,
@@ -49,6 +46,7 @@ class TestModelWrappers(TestCase):
             subject_identifier='092-12345')
         helper.test(self)
 
+    @tag('2')
     def test_appointment(self):
 
         class MySubjectVisitModelWrapper(SubjectVisitModelWrapper):

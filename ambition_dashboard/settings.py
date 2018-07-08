@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'edc_lab_dashboard.apps.AppConfig',
     'edc_locator.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
+    'edc_visit_schedule.apps.AppConfig',
     'edc_model_wrapper.apps.AppConfig',
     'ambition_dashboard.apps.EdcAppointmentAppConfig',
     'ambition_dashboard.apps.AppConfig',
@@ -157,6 +158,7 @@ DASHBOARD_BASE_TEMPLATES = {
     'subject_listboard_template': 'ambition_dashboard/subject/listboard.html',
     'subject_dashboard_template': 'ambition_dashboard/subject/dashboard.html',
 }
+LAB_DASHBOARD_REQUISITION_MODEL = 'ambition_dashboard.subjectrequisition'
 
 if 'test' in sys.argv:
 

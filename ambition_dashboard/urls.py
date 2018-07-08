@@ -40,6 +40,7 @@ if settings.APP_NAME == 'ambition_dashboard':
     from .tests.admin import ambition_test_admin
 
     urlpatterns += [
+        path('edc_visit_schedule/', include('edc_visit_schedule.urls')),
         path('edc_device/', include('edc_device.urls')),
         path('edc_protocol/', include('edc_protocol.urls')),
         path('admin/', edc_appointment_admin.urls),
@@ -50,4 +51,5 @@ if settings.APP_NAME == 'ambition_dashboard':
         path('admin/', include('edc_base.auth.urls')),
         path('edc_lab/', include('edc_lab.urls')),
         path('edc_lab_dashboard/', include('edc_lab_dashboard.urls')),
+        path('edc_subject_dashboard/', include('edc_subject_dashboard.urls')),
         path(r'', RedirectView.as_view(url='admin/'), name='home_url')]

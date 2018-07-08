@@ -2,10 +2,9 @@ from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_appointment.models import Appointment
 from edc_base.model_mixins import BaseUuidModel
-from edc_visit_tracking.model_mixins import VisitModelMixin
 
 
-class SubjectVisit(VisitModelMixin, BaseUuidModel):
+class SubjectVisit(BaseUuidModel):
 
     appointment = models.OneToOneField(Appointment, on_delete=PROTECT)
 
