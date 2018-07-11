@@ -35,6 +35,7 @@ git+https://github.com/clinicedc/edc-reference@develop#egg=edc-reference
 git+https://github.com/clinicedc/edc-registration@develop#egg=edc-registration
 git+https://github.com/clinicedc/edc-rest@develop#egg=edc-rest
 git+https://github.com/clinicedc/edc-reportable@develop#egg=edc-reportable
+git+https://github.com/clinicedc/edc-reports@develop#egg=edc-reports
 git+https://github.com/clinicedc/edc-search@develop#egg=edc-search
 git+https://github.com/clinicedc/edc-subject-dashboard@develop#egg=edc-subject-dashboard
 git+https://github.com/clinicedc/edc-timepoint@develop#egg=edc-timepoint
