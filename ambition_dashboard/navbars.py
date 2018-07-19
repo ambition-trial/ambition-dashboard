@@ -11,7 +11,7 @@ ambition_dashboard.append_item(
         name='screened_subject',
         title='Screening',
         label='screening',
-        fa_icon='fa fa-user-plus',
+        fa_icon='fas fa-user-plus',
         url_name=settings.DASHBOARD_URL_NAMES['screening_listboard_url'],
         no_url_namespace=no_url_namespace))
 
