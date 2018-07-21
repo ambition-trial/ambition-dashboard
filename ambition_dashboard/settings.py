@@ -47,8 +47,14 @@ INSTALLED_APPS = [
     'edc_timepoint.apps.AppConfig',
     'edc_protocol.apps.AppConfig',
     'edc_device.apps.AppConfig',
+    'edc_metadata.apps.AppConfig',
     'edc_navbar.apps.AppConfig',
+    'edc_action_item.apps.AppConfig',
+    'edc_lab.apps.AppConfig',
+    'edc_lab_dashboard.apps.AppConfig',
+    'edc_locator.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
+    'edc_visit_schedule.apps.AppConfig',
     'edc_model_wrapper.apps.AppConfig',
     'ambition_dashboard.apps.EdcAppointmentAppConfig',
     'ambition_dashboard.apps.AppConfig',
@@ -62,10 +68,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'edc_dashboard.middleware.DashboardMiddleware',
     'edc_subject_dashboard.middleware.DashboardMiddleware',
-    # 'edc_lab_dashboard.middleware.DashboardMiddleware',
-]
+    'edc_dashboard.middleware.DashboardMiddleware',
+    'edc_lab_dashboard.middleware.DashboardMiddleware']
+
 
 ROOT_URLCONF = 'ambition_dashboard.urls'
 
@@ -152,6 +158,7 @@ DASHBOARD_BASE_TEMPLATES = {
     'subject_listboard_template': 'ambition_dashboard/subject/listboard.html',
     'subject_dashboard_template': 'ambition_dashboard/subject/dashboard.html',
 }
+LAB_DASHBOARD_REQUISITION_MODEL = 'ambition_dashboard.subjectrequisition'
 
 if 'test' in sys.argv:
 

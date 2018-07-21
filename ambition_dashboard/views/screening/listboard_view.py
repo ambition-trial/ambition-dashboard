@@ -20,9 +20,9 @@ class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
     listboard_url = 'screening_listboard_url'
     listboard_panel_style = 'info'
     listboard_fa_icon = "fa-user-plus"
-
     listboard_view_filters = ListboardViewFilters()
-    model = 'ambition_screening.subjectscreening'
+    listboard_model = 'ambition_screening.subjectscreening'
+
     model_wrapper_cls = SubjectScreeningModelWrapper
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'screened_subject'
@@ -37,7 +37,7 @@ class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
-            subject_screening_add_url=self.model_cls().get_absolute_url(),
+            subject_screening_add_url=self.listboard_model_cls().get_absolute_url(),
             ABNORMAL=ABNORMAL)
         return context
 
