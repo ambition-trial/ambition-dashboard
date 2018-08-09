@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.deletion import PROTECT
 from edc_appointment.models import Appointment
 from edc_base.model_mixins import BaseUuidModel
+from edc_lab.models import Panel
 
 
 class SubjectVisit(BaseUuidModel):
@@ -56,7 +57,7 @@ class SubjectRequisition(BaseUuidModel):
 
     subject_visit = models.ForeignKey(SubjectVisit, on_delete=PROTECT)
 
-    panel_name = models.CharField(max_length=25)
+    panel = models.ForeignKey(Panel, on_delete=PROTECT)
 
 
 class SubjectScreening(BaseUuidModel):

@@ -1,5 +1,6 @@
 from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
+from edc_lab.models.panel import Panel
 from edc_lab_dashboard.model_wrappers import RequisitionModelWrapper
 from edc_model_wrapper.tests import ModelWrapperTestHelper
 
@@ -22,6 +23,16 @@ class ScreeningModelWrapperTestHelper(ModelWrapperTestHelper):
 class TestModelWrappers(TestCase):
 
     model_wrapper_helper_cls = SubjectModelWrapperTestHelper
+
+    @classmethod
+    def setUpClass(cls):
+        Panel.objects.create(name='vl')
+        return super().setUpClass()
+
+    @classmethod
+    def tearDownClass(cls):
+        Panel.objects.all().delete()
+        super().tearDownClass()
 
     def test_subject_screening(self):
         helper = ScreeningModelWrapperTestHelper(
@@ -46,7 +57,6 @@ class TestModelWrappers(TestCase):
             subject_identifier='092-12345')
         helper.test(self)
 
-    @tag('2')
     def test_appointment(self):
 
         class MySubjectVisitModelWrapper(SubjectVisitModelWrapper):
@@ -87,5 +97,6 @@ class TestModelWrappers(TestCase):
         helper = self.model_wrapper_helper_cls(
             model_wrapper=MyRequisitionModelWrapper,
             app_label='ambition_dashboard',
-            subject_visit=subject_visit)
+            subject_visit=subject_visit,
+            panel=Panel.objects.get(name='vl'))
         helper.test(self)

@@ -158,7 +158,10 @@ DASHBOARD_BASE_TEMPLATES = {
     'subject_listboard_template': 'ambition_dashboard/subject/listboard.html',
     'subject_dashboard_template': 'ambition_dashboard/subject/dashboard.html',
 }
+
 LAB_DASHBOARD_REQUISITION_MODEL = 'ambition_dashboard.subjectrequisition'
+LAB_DASHBOARD_URL_NAMES = {}
+LAB_DASHBOARD_BASE_TEMPLATES = {}
 
 if 'test' in sys.argv:
 
