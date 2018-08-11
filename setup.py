@@ -25,6 +25,18 @@ setup(
     long_description=README,
     zip_safe=False,
     keywords='django ambition dashboard',
+    install_requires=[
+        'ambition-rando',
+        'edc-appointment',
+        'edc-base',
+        'edc-consent',
+        'edc-constants',
+        'edc-dashboard',
+        'edc-lab-dashboard',
+        'edc-model-wrapper',
+        'edc-navbar',
+        'edc-subject-dashboard',
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
