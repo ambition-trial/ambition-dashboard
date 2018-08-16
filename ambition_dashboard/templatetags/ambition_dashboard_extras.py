@@ -5,12 +5,15 @@ from edc_constants.constants import ABNORMAL
 register = template.Library()
 
 
-@register.inclusion_tag('ambition_dashboard/buttons/screening_button.html')
-def screening_button(model_wrapper):
+@register.inclusion_tag(
+    'ambition_dashboard/buttons/screening_button.html', takes_context=True)
+def screening_button(context, model_wrapper):
     title = ['Edit subject\' screening form.']
     if model_wrapper.object.mental_status == ABNORMAL:
         title.append('(Note: mental status is abnormal)')
+
     return dict(
+        perms=context['perms'],
         screening_identifier=model_wrapper.object.screening_identifier,
         href=model_wrapper.href,
         title=' '.join(title))
@@ -28,13 +31,15 @@ def eligibility_button(subject_screening_model_wrapper):
     return dict(eligible=obj.eligible, comment=comment, tooltip=tooltip)
 
 
-@register.inclusion_tag('ambition_dashboard/buttons/consent_button.html')
-def consent_button(model_wrapper):
+@register.inclusion_tag(
+    'ambition_dashboard/buttons/consent_button.html', takes_context=True)
+def consent_button(context, model_wrapper):
     title = ['Consent subject to participate.']
     consent_version = model_wrapper.consent.version
     if model_wrapper.object.mental_status == ABNORMAL:
         title.append('(Note: mental status is abnormal)')
     return dict(
+        perms=context['perms'],
         screening_identifier=model_wrapper.object.screening_identifier,
         add_consent_href=model_wrapper.consent.href,
         consent_version=consent_version,
