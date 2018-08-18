@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'edc_lab_dashboard.apps.AppConfig',
     'edc_locator.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
+    'edc_registration.apps.AppConfig',
     'edc_visit_schedule.apps.AppConfig',
     'edc_model_wrapper.apps.AppConfig',
     'ambition_dashboard.apps.EdcAppointmentAppConfig',
