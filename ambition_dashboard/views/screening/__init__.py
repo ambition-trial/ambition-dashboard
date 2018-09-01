@@ -1,1 +1,1 @@
-from .listboard_view import ListBoardView
+from .listboard_view import ListboardView

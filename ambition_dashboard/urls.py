@@ -4,7 +4,9 @@ from edc_appointment.admin_site import edc_appointment_admin
 from edc_dashboard import UrlConfig
 
 from .patterns import subject_identifier, screening_identifier
-from .views import SubjectListboardView, SubjectDashboardView, ScreeningListboardView
+from .views import (
+    SubjectListboardView, SubjectDashboardView,
+    ScreeningListboardView, TmgListboardView)
 
 app_name = 'ambition_dashboard'
 
@@ -26,12 +28,19 @@ subject_dashboard_url_config = UrlConfig(
     label='subject_dashboard',
     identifier_label='subject_identifier',
     identifier_pattern=subject_identifier)
+tmg_listboard_url_config = UrlConfig(
+    url_name='tmg_listboard_url',
+    view_class=TmgListboardView,
+    label='tmg_listboard',
+    identifier_label='subject_identifier',
+    identifier_pattern=subject_identifier)
 
 
 urlpatterns = []
 urlpatterns += subject_listboard_url_config.listboard_urls
 urlpatterns += screening_listboard_url_config.listboard_urls
 urlpatterns += subject_dashboard_url_config.dashboard_urls
+urlpatterns += tmg_listboard_url_config.listboard_urls
 
 if settings.APP_NAME == 'ambition_dashboard':
 
