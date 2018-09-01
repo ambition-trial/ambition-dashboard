@@ -164,6 +164,8 @@ LAB_DASHBOARD_REQUISITION_MODEL = 'ambition_dashboard.subjectrequisition'
 LAB_DASHBOARD_URL_NAMES = {}
 LAB_DASHBOARD_BASE_TEMPLATES = {}
 
+EDC_BOOTSTRAP = 3
+
 if 'test' in sys.argv:
 
     class DisableMigrations:
