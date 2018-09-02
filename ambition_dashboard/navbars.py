@@ -32,7 +32,7 @@ navbar.append_item(
         label='AE TMG Reports',
         fa_icon='fas fa-chalkboard-teacher',
         permission_codename='nav_tmg_section',
-        url_name=settings.DASHBOARD_URL_NAMES.get('tmg_listboard_url'),
+        url_name=settings.DASHBOARD_URL_NAMES['tmg_listboard_url'],
         no_url_namespace=no_url_namespace))
 
 site_navbars.register(navbar)
