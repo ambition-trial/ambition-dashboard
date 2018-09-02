@@ -35,7 +35,6 @@ tmg_listboard_url_config = UrlConfig(
     identifier_label='subject_identifier',
     identifier_pattern=subject_identifier)
 
-
 urlpatterns = []
 urlpatterns += subject_listboard_url_config.listboard_urls
 urlpatterns += screening_listboard_url_config.listboard_urls
@@ -58,6 +57,8 @@ if settings.APP_NAME == 'ambition_dashboard':
              name='administration_url'),
         path('accounts/', include('edc_auth.urls')),
         path('admin/', include('edc_auth.urls')),
+        path('edc_auth/', include('edc_auth.urls')),
+        path('edc_base/', include('edc_base.urls')),
         path('edc_lab/', include('edc_lab.urls')),
         path('edc_lab_dashboard/', include('edc_lab_dashboard.urls')),
         path('edc_subject_dashboard/', include('edc_subject_dashboard.urls')),
