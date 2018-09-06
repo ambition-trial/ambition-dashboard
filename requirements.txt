@@ -2,3 +2,4 @@ faker
 model-mommy
 edc-registration
 edc-selenium
+edc-offstudy
