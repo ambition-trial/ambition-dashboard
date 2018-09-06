@@ -1,0 +1,67 @@
+{% load edc_dashboard_extras %}
+{% load tz %}
+{% load static %}
+{% load edc_base_extras %}
+
+
+<div class="panel">  
+<!-- begin table -->
+<div class="table-responsive">
+<table class="table table-condensed table-hover small">
+<thead>
+
+    <!-- begin results header -->
+    <th>#</th>
+    <th>Report</th>
+    <th>Reviewer</th>
+    <!-- end results header -->
+
+</thead><tbody>
+
+{% for result in results %}
+    <tr> 
+    <td>{{ forloop.counter }}</td>    
+    <td>
+        <div class="list-group">
+            <a class="list-group-item list-group-item-{% if result.reference_obj %}success{% else%}warning{% endif %}" role="button" href="{{ result.reference_url }}">
+            {% if result.reference_obj %}<i class="fas fa-pencil-alt fa-fw"></i> {% else %}<i class="fas fa-plus fa-fw"></i> {% endif %}
+            {{ result.reference_model_name|default:'New' }}</a>
+
+            <a class="list-group-item list-group-item-default" role="button"
+            href="{{ result.related_reference_url|default:result.parent_reference_url }}">
+            {{result.related_reference_model_name|default:result.parent_reference_model_name }}</a>
+            
+            <a class="list-group-item list-group-item-default" role="button" 
+            title="to subject dashboard"
+            href="{% url subject_dashboard_url subject_identifier=result.subject_identifier  %}">
+            <i class="fas fa-user-circle fa-sm"></i> Subject Dashboard  <i class="fas fa-share"></i></a>
+        </div>
+    </td>
+    <td>
+        <div class="list-group">
+        <div class="list-group-item">{{ result.reference_obj.user_created|default:"---" }}&nbsp;{{ result.reference_obj.created|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+        <div class="list-group-item">{{ result.reference_obj.user_modified|default:"---" }}&nbsp;{{ result.reference_obj.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+        </div>
+    </td>
+    </tr>                       
+
+{% endfor %}
+
+</tbody></table>
+
+<!-- begin spacer rows -->
+<table>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+<!-- end spacer rows -->
+
+</div><!-- end table -->
+
+{% paginator_row %}
+
+</div>  <!--end panel -->
+<!-- end listboard main block -->

@@ -6,7 +6,8 @@ register = template.Library()
 
 
 @register.inclusion_tag(
-    'ambition_dashboard/buttons/screening_button.html', takes_context=True)
+    f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/'
+    f'buttons/screening_button.html', takes_context=True)
 def screening_button(context, model_wrapper):
     title = ['Edit subject\' screening form.']
     if model_wrapper.object.mental_status == ABNORMAL:
@@ -19,7 +20,8 @@ def screening_button(context, model_wrapper):
         title=' '.join(title))
 
 
-@register.inclusion_tag('ambition_dashboard/buttons/eligibility_button.html')
+@register.inclusion_tag(f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/'
+                        f'buttons/eligibility_button.html')
 def eligibility_button(subject_screening_model_wrapper):
     comment = []
     obj = subject_screening_model_wrapper.object
@@ -32,7 +34,8 @@ def eligibility_button(subject_screening_model_wrapper):
 
 
 @register.inclusion_tag(
-    'ambition_dashboard/buttons/consent_button.html', takes_context=True)
+    f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/buttons/consent_button.html',
+    takes_context=True)
 def consent_button(context, model_wrapper):
     title = ['Consent subject to participate.']
     consent_version = model_wrapper.consent.version
@@ -46,10 +49,18 @@ def consent_button(context, model_wrapper):
         title=' '.join(title))
 
 
-@register.inclusion_tag('ambition_dashboard/buttons/dashboard_button.html')
+@register.inclusion_tag(f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/'
+                        f'buttons/dashboard_button.html')
 def dashboard_button(model_wrapper):
     subject_dashboard_url = settings.DASHBOARD_URL_NAMES.get(
         'subject_dashboard_url')
     return dict(
         subject_dashboard_url=subject_dashboard_url,
         subject_identifier=model_wrapper.subject_identifier)
+
+
+@register.inclusion_tag(f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/'
+                        f'tmg/listboard_result.html', takes_context=True)
+def tmg_listboard_results(context, results):
+    context['results'] = results
+    return context

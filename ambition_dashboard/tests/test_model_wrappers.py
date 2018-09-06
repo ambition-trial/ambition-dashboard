@@ -1,7 +1,6 @@
 from django.test import TestCase, tag
 from edc_base.utils import get_utcnow
 from edc_lab.models.panel import Panel
-from edc_lab_dashboard.model_wrappers import RequisitionModelWrapper
 from edc_model_wrapper.tests import ModelWrapperTestHelper
 
 from ..model_wrappers import AppointmentModelWrapper
@@ -9,7 +8,7 @@ from ..model_wrappers import SubjectConsentModelWrapper
 from ..model_wrappers import SubjectLocatorModelWrapper
 from ..model_wrappers import SubjectVisitModelWrapper
 from ..model_wrappers import SubjectScreeningModelWrapper
-from .models import SubjectScreening, Appointment, SubjectVisit
+from .models import SubjectScreening, Appointment
 
 
 class SubjectModelWrapperTestHelper(ModelWrapperTestHelper):
@@ -82,21 +81,6 @@ class TestModelWrappers(TestCase):
             model_wrapper=SubjectVisitModelWrapper,
             app_label='ambition_dashboard',
             subject_identifier='092-12345',
-            appointment=appointment)
-        helper.test(self)
-
-    def test_subject_requisition(self):
-        class MyRequisitionModelWrapper(RequisitionModelWrapper):
-            requisition_panel_name = 'vl'
-        appointment = Appointment.objects.create(
-            appt_datetime=get_utcnow(),
-            subject_identifier='092-12345')
-        subject_visit = SubjectVisit.objects.create(
-            subject_identifier='092-12345',
-            appointment=appointment)
-        helper = self.model_wrapper_helper_cls(
-            model_wrapper=MyRequisitionModelWrapper,
-            app_label='ambition_dashboard',
-            subject_visit=subject_visit,
-            panel=Panel.objects.get(name='vl'))
+            appointment=appointment,
+            reason='scheduled')
         helper.test(self)

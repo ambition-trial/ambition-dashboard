@@ -13,7 +13,7 @@ from ...model_wrappers import SubjectScreeningModelWrapper
 from .filters import ListboardViewFilters
 
 
-class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
+class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
                     ListboardFilterViewMixin, SearchFormViewMixin, ListboardView):
 
     listboard_template = 'screening_listboard_template'

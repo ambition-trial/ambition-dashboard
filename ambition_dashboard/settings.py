@@ -16,7 +16,7 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP_NAME = 'ambition_dashboard'
-
+ETC_DIR = BASE_DIR
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -31,7 +31,6 @@ REVIEWER_SITE_ID = 0
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,15 +43,20 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_crypto_fields.apps.AppConfig',
     'django_revision.apps.AppConfig',
+    'edc_auth.apps.AppConfig',
+    'edc_base.apps.AppConfig',
     'edc_timepoint.apps.AppConfig',
     'edc_protocol.apps.AppConfig',
     'edc_device.apps.AppConfig',
     'edc_metadata.apps.AppConfig',
     'edc_navbar.apps.AppConfig',
     'edc_action_item.apps.AppConfig',
+    'edc_dashboard.apps.AppConfig',
     'edc_lab.apps.AppConfig',
     'edc_lab_dashboard.apps.AppConfig',
+    'edc_subject_dashboard.apps.AppConfig',
     'edc_locator.apps.AppConfig',
+    'edc_offstudy.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
     'edc_registration.apps.AppConfig',
     'edc_visit_schedule.apps.AppConfig',
@@ -65,6 +69,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -150,6 +155,7 @@ DASHBOARD_URL_NAMES = {
     'subject_listboard_url': 'ambition_dashboard:subject_listboard_url',
     'screening_listboard_url': 'ambition_dashboard:screening_listboard_url',
     'subject_dashboard_url': 'ambition_dashboard:subject_dashboard_url',
+    'tmg_listboard_url': 'ambition_dashboard:tmg_listboard_url',
 }
 
 DASHBOARD_BASE_TEMPLATES = {
@@ -161,8 +167,8 @@ DASHBOARD_BASE_TEMPLATES = {
 }
 
 LAB_DASHBOARD_REQUISITION_MODEL = 'ambition_dashboard.subjectrequisition'
-LAB_DASHBOARD_URL_NAMES = {}
-LAB_DASHBOARD_BASE_TEMPLATES = {}
+
+EDC_BOOTSTRAP = 3
 
 if 'test' in sys.argv:
 

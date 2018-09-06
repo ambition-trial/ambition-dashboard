@@ -1,0 +1,41 @@
+{% extends edc_listboard_template %}
+{% load edc_dashboard_extras %}
+{% load tz %}
+{% load static %}
+{% load edc_base_extras %}
+{% load ambition_dashboard_extras %}
+
+{% block main %}
+
+{{ status }}
+
+<div class="panel panel-{{ listboard_panel_style}}">
+<div class="panel-heading">
+
+<i class="{{ listboard_fa_icon }} fa-2x"></i>&nbsp;&nbsp;<span class="text text-large">Adverse Event TMG Reports {{ listboard_model_cls}}</span>
+                    
+<span class="pull-right">
+    {% include 'edc_dashboard/bootstrap3/search_form.html' %}
+</span>
+
+</div> <!--end panel heading -->
+</div>
+
+<ul class="nav nav-tabs">
+  <li {% if not status or status == NEW %}class="active"{% endif %}><a data-toggle="tab" href="#{{ NEW }}">New <span class="badge badge-">{{ new_count }}</span></a></li>
+  <li {% if status == OPEN %}class="active"{% endif %}><a data-toggle="tab" href="#{{ OPEN }}">Open <span class="badge">{{ open_count }}</span></a></li>
+  <li {% if status == CLOSED %}class="active"{% endif %}><a data-toggle="tab" href="#{{ CLOSED }}">Closed <span class="badge">{{ closed_count }}</span></a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="{{ NEW }}" class="tab-pane fade in {% if status == NEW %}active{% endif %}">
+    {% tmg_listboard_results results_new %}
+  </div>
+  <div id="{{ OPEN }}" class="tab-pane fade in {% if status == OPEN %}active{% endif %}">
+    {% tmg_listboard_results results_open %}
+  </div>
+  <div id="{{ CLOSED }}" class="tab-pane fade in {% if status == CLOSED %}active{% endif %}">
+    {% tmg_listboard_results results_closed %}
+  </div>
+</div>
+{% endblock main %}

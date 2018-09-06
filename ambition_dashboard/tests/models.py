@@ -16,6 +16,10 @@ class SubjectVisit(BaseUuidModel):
         null=True,
         editable=False)
 
+    reason = models.CharField(
+        max_length=25,
+        null=True)
+
 
 class BloodResultModel(models.Model):
 
@@ -58,6 +62,10 @@ class SubjectRequisition(BaseUuidModel):
     subject_visit = models.ForeignKey(SubjectVisit, on_delete=PROTECT)
 
     panel = models.ForeignKey(Panel, on_delete=PROTECT)
+
+    is_drawn = models.CharField(max_length=15, null=True)
+
+    clinic_verified = models.CharField(max_length=15, null=True)
 
 
 class SubjectScreening(BaseUuidModel):
