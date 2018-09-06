@@ -43,20 +43,23 @@ urlpatterns += tmg_listboard_url_config.listboard_urls
 
 if settings.APP_NAME == 'ambition_dashboard':
 
+    from django.contrib import admin
     from django.views.generic.base import RedirectView
+    from edc_dashboard.views import AdministrationView
 
     from .tests.admin import ambition_test_admin
 
     urlpatterns += [
+        path('accounts/', include('edc_auth.urls')),
+        path('admin/', include('edc_auth.urls')),
+        path('admin/', edc_appointment_admin.urls),
+        path('admin/', ambition_test_admin.urls),
+        path('admin/', admin.site.urls),
+        path('administration/', AdministrationView.as_view(),
+             name='administration_url'),
         path('edc_visit_schedule/', include('edc_visit_schedule.urls')),
         path('edc_device/', include('edc_device.urls')),
         path('edc_protocol/', include('edc_protocol.urls')),
-        path('admin/', edc_appointment_admin.urls),
-        path('admin/', ambition_test_admin.urls),
-        path('admininistration/', RedirectView.as_view(url='admin/'),
-             name='administration_url'),
-        path('accounts/', include('edc_auth.urls')),
-        path('admin/', include('edc_auth.urls')),
         path('edc_auth/', include('edc_auth.urls')),
         path('edc_base/', include('edc_base.urls')),
         path('edc_lab/', include('edc_lab.urls')),
