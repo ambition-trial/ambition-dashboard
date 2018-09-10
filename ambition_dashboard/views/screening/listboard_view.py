@@ -22,6 +22,7 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
     listboard_fa_icon = "fa-user-plus"
     listboard_view_filters = ListboardViewFilters()
     listboard_model = 'ambition_screening.subjectscreening'
+    listboard_view_permission_codename = 'edc_dashboard.view_screening_listboard'
 
     model_wrapper_cls = SubjectScreeningModelWrapper
     navbar_name = 'ambition_dashboard'
