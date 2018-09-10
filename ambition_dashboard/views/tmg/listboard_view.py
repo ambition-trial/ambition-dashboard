@@ -3,7 +3,7 @@ import re
 import six
 
 from ambition_ae.action_items import AE_TMG_ACTION
-from ambition_edc.permissions.group_names import TMG
+from ambition_auth import TMG
 from copy import copy
 from django.apps import apps as django_apps
 from django.conf import settings
