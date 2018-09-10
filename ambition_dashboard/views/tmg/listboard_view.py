@@ -5,6 +5,7 @@ import six
 from ambition_ae.action_items import AE_TMG_ACTION
 from ambition_edc.permissions.group_names import TMG
 from copy import copy
+from django.apps import apps as django_apps
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -16,6 +17,7 @@ from edc_constants.constants import CLOSED, NEW, OPEN
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
+from django.utils.text import slugify
 
 
 class ActionItemModelWrapper(BaseActionItemModelWrapper):
@@ -121,3 +123,40 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
                 model_wrapper.has_related_reference_obj_permissions = (
                     model_wrapper.related_reference_obj.user_created == self.request.user.username)
         return model_wrapper
+
+    def get_queryset_for_listboard(self, filter_options=None, exclude_options=None):
+        """Returns a queryset after searching against AE TMG.
+        """
+        if self.search_term and '|' not in self.search_term:
+            ae_tmg_model_cls = django_apps.get_model(self.ae_tmg_model)
+            search_terms = self.search_term.split('+')
+            q = None
+            q_objects = []
+            for search_term in search_terms:
+                q_objects.append(
+                    Q(subject_identifier__icontains=slugify(search_term)))
+                q_objects.append(
+                    Q(action_identifier__icontains=slugify(search_term)))
+                q_objects.append(
+                    Q(ae_initial__ae_classification__icontains=slugify(search_term)))
+                q_objects.append(
+                    Q(user_created__iexact=slugify(search_term)))
+                q_objects.append(
+                    Q(parent_reference_identifier__icontains=slugify(search_term)))
+                q_objects.append(
+                    Q(related_reference_identifier__icontains=slugify(search_term)))
+            for q_object in q_objects:
+                if q:
+                    q = q | q_object
+                else:
+                    q = q_object
+            tmg_queryset = ae_tmg_model_cls.objects.filter(q or Q())
+            queryset = self.listboard_model_cls.objects.filter(
+                action_identifier__in=[
+                    obj.action_identifier for obj in tmg_queryset],
+                **filter_options).exclude(**exclude_options)
+        else:
+            queryset = super().get_queryset_for_listboard(
+                filter_options=filter_options,
+                exclude_options=exclude_options)
+        return queryset
