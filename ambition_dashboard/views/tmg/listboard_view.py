@@ -115,13 +115,13 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
                 model_wrapper.has_reference_obj_permissions = (
                     model_wrapper.reference_obj.user_created == self.request.user.username)
             if (model_wrapper.parent_reference_obj
-                    and model_wrapper.parent_reference_obj._meta.label_lower == self.ae_tmg_model):
+                    and model_wrapper.parent_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
                 model_wrapper.has_parent_reference_obj_permissions = (
-                    model_wrapper.parent_reference_obj.user_created == self.request.user.username)
+                    model_wrapper.parent_reference_obj.user_created == self.request.user.username)  # noqa
             if (model_wrapper.related_reference_obj
-                    and model_wrapper.related_reference_obj._meta.label_lower == self.ae_tmg_model):
+                    and model_wrapper.related_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
                 model_wrapper.has_related_reference_obj_permissions = (
-                    model_wrapper.related_reference_obj.user_created == self.request.user.username)
+                    model_wrapper.related_reference_obj.user_created == self.request.user.username)  # noqa
         return model_wrapper
 
     def get_queryset_for_listboard(self, filter_options=None, exclude_options=None):
