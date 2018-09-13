@@ -56,13 +56,13 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
         context['status'] = NEW if self.request.GET.get('status') not in [
             NEW, OPEN, CLOSED] else self.request.GET.get('status')
         results = copy(context['results'])
-        context['new_count'] = self.listboard_model_cls.objects.filter(
+        context['new_count'] = self.listboard_model_cls.on_site.filter(
             action_type__name=AE_TMG_ACTION,
             status=NEW).count()
-        context['open_count'] = self.listboard_model_cls.objects.filter(
+        context['open_count'] = self.listboard_model_cls.on_site.filter(
             action_type__name=AE_TMG_ACTION,
             status=OPEN).count()
-        context['closed_count'] = self.listboard_model_cls.objects.filter(
+        context['closed_count'] = self.listboard_model_cls.on_site.filter(
             action_type__name=AE_TMG_ACTION,
             status=CLOSED).count()
         context['results_new'] = [
@@ -71,6 +71,9 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
             r for r in results if r.object.status == OPEN]
         context['results_closed'] = [
             r for r in results if r.object.status == CLOSED]
+        context['results_summary'] = self.get_wrapped_queryset(
+            self.listboard_model_cls.objects.filter(
+                action_type__name=AE_TMG_ACTION).order_by(self.ordering))
         context['utc_date'] = arrow.now().date()
         return context
 
@@ -80,53 +83,32 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
             q = Q(first_name__exact=search_term)
         return q
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.filter(
-            action_type__name__in=self.action_type_names)
-        ordering = self.get_ordering()
-        if ordering:
-            if isinstance(ordering, six.string_types):
-                ordering = (ordering,)
-            return qs.order_by(*ordering)
-        return qs
+#     def get_queryset(self):
+#         qs = super().get_queryset()
+#         qs = qs.filter(
+#             action_type__name__in=self.action_type_names)
+#         ordering = self.get_ordering()
+#         if ordering:
+#             if isinstance(ordering, six.string_types):
+#                 ordering = (ordering,)
+#             return qs.order_by(*ordering)
+#         return qs
 
-    def get_wrapped_queryset(self, queryset):
-        """Returns a list of wrapped model instances.
-        """
-        object_list = []
-        for obj in queryset:
-            model_wrapper = self.model_wrapper_cls(obj)
-            model_wrapper = self.update_instance_permissions(model_wrapper)
-            object_list.append(model_wrapper)
-        return object_list
+#     def get_wrapped_queryset(self, queryset):
+#         """Returns a list of wrapped model instances.
+#         """
+#         object_list = []
+#         for obj in queryset:
+#             model_wrapper = self.model_wrapper_cls(obj)
+#             model_wrapper = self.update_instance_permissions(model_wrapper)
+#             object_list.append(model_wrapper)
+#         return object_list
 
-    def update_instance_permissions(self, model_wrapper):
-        model_wrapper.has_reference_obj_permissions = True
-        model_wrapper.has_parent_reference_obj_permissions = True
-        model_wrapper.has_related_reference_obj_permissions = True
-        try:
-            self.request.user.groups.get(name=TMG)
-        except ObjectDoesNotExist:
-            pass
-        else:
-            if (model_wrapper.reference_obj
-                    and model_wrapper.reference_obj._meta.label_lower == self.ae_tmg_model):
-                model_wrapper.has_reference_obj_permissions = (
-                    model_wrapper.reference_obj.user_created == self.request.user.username)
-            if (model_wrapper.parent_reference_obj
-                    and model_wrapper.parent_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
-                model_wrapper.has_parent_reference_obj_permissions = (
-                    model_wrapper.parent_reference_obj.user_created == self.request.user.username)  # noqa
-            if (model_wrapper.related_reference_obj
-                    and model_wrapper.related_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
-                model_wrapper.has_related_reference_obj_permissions = (
-                    model_wrapper.related_reference_obj.user_created == self.request.user.username)  # noqa
-        return model_wrapper
-
-    def get_queryset_for_listboard(self, filter_options=None, exclude_options=None):
+    def get_filtered_queryset(self, filter_options=None, exclude_options=None):
         """Returns a queryset after searching against AE TMG.
         """
+        filter_options = filter_options or {}
+        filter_options.update(action_type__name__in=self.action_type_names)
         if self.search_term and '|' not in self.search_term:
             ae_tmg_model_cls = django_apps.get_model(self.ae_tmg_model)
             search_terms = self.search_term.split('+')
@@ -150,13 +132,42 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
                     q = q | q_object
                 else:
                     q = q_object
-            tmg_queryset = ae_tmg_model_cls.objects.filter(q or Q())
-            queryset = self.listboard_model_cls.objects.filter(
+            tmg_queryset = ae_tmg_model_cls._default_manager.filter(q or Q())
+            queryset = self.listboard_model_cls._default_manager.filter(
                 action_identifier__in=[
                     obj.action_identifier for obj in tmg_queryset],
                 **filter_options).exclude(**exclude_options)
         else:
-            queryset = super().get_queryset_for_listboard(
+            queryset = super().get_filtered_queryset(
                 filter_options=filter_options,
                 exclude_options=exclude_options)
+
+        ordering = self.get_ordering()
+        if ordering:
+            if isinstance(ordering, str):
+                ordering = (ordering,)
+            queryset = queryset.order_by(*ordering)
         return queryset
+
+    def update_wrapped_instance(self, model_wrapper):
+        model_wrapper.has_reference_obj_permissions = True
+        model_wrapper.has_parent_reference_obj_permissions = True
+        model_wrapper.has_related_reference_obj_permissions = True
+        try:
+            self.request.user.groups.get(name=TMG)
+        except ObjectDoesNotExist:
+            pass
+        else:
+            if (model_wrapper.reference_obj
+                    and model_wrapper.reference_obj._meta.label_lower == self.ae_tmg_model):
+                model_wrapper.has_reference_obj_permissions = (
+                    model_wrapper.reference_obj.user_created == self.request.user.username)
+            if (model_wrapper.parent_reference_obj
+                    and model_wrapper.parent_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
+                model_wrapper.has_parent_reference_obj_permissions = (
+                    model_wrapper.parent_reference_obj.user_created == self.request.user.username)  # noqa
+            if (model_wrapper.related_reference_obj
+                    and model_wrapper.related_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
+                model_wrapper.has_related_reference_obj_permissions = (
+                    model_wrapper.related_reference_obj.user_created == self.request.user.username)  # noqa
+        return model_wrapper

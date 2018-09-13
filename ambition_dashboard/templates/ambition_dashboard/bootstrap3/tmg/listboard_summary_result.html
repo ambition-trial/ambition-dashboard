@@ -1,0 +1,72 @@
+{% load edc_dashboard_extras %}
+{% load tz %}
+{% load static %}
+{% load edc_base_extras %}
+
+<!-- begin table -->
+<div class="table-responsive">
+<table class="table table-condensed table-hover small">
+<thead>
+
+    <!-- begin results header -->
+    <th>#</th>
+    <th>TMG</th>
+    <th>Status</th>
+    <th>Subject</th>
+    <th>Created</th>
+    <th>Modified</th>
+    <th>Site</th>
+    <th>Parent</th>
+    <th>Related</th>
+    <th>Follow-ups</th>
+    <!-- end results header -->
+
+</thead><tbody>
+
+{% if not results %}
+    <tr> 
+    <td>
+        <div class="alert alert-success">
+            <h6><i class="fas fa-thumbs-up fa-lg"></i> {{ empty_message }}</h6>
+        </div>
+    </td>
+    </tr>
+{% endif %}
+
+{% for result in results %}
+    <tr> 
+    <td>{{ forloop.counter }}</td>
+    <td>{{ result.reference_model_name }}</td>
+    <td>{{ result.reference_obj.status }}<br>
+        <span class="text text-muted small">{{ utc_date|timeuntil:result.report_date }} ago</span></td>
+    <td>{{ result.subject_identifier }}</td>
+    <td>{{ result.reference_obj.user_created|default:"---" }}<BR>{{ result.reference_obj.created|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</td>
+    <td>{{ result.reference_obj.user_modified|default:"---" }}<BR>{{ result.reference_obj.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</td>
+    <td>{{ result.parent_reference_obj.site.name|title }}</td>
+    <td>{{ result.parent_reference_model_name|default:"" }}</td>
+    <td>{{ result.related_reference_model_name|default:"" }}</td>
+    <td>{% for obj in result.parent_reference_obj.ae_follow_ups %}<p>AE Followup {{ obj }}</p>{% endfor %}</td>
+    </tr>                       
+{% endfor %}
+
+</tbody></table>
+
+<!-- begin spacer rows -->
+<table>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+<!-- end spacer rows -->
+
+</div><!-- end table -->
+
+{% paginator_row %}
+has_listboard_model_perms={{ has_listboard_model_perms }}
+has_view_listboard_perms={{has_view_listboard_perms }}
+listboard_view_permission_codename={{listboard_view_permission_codename }}
+
+</div>  <!--end panel -->
+<!-- end listboard main block -->

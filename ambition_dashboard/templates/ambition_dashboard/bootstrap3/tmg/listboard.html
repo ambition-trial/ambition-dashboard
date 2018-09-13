@@ -23,17 +23,21 @@
   <li {% if not status or status == NEW %}class="active"{% endif %}><a data-toggle="tab" href="#{{ NEW }}-tab">New {% if new_count > 0 %}<span class="label label-danger">{{ new_count }}</span>{% endif %}</a></li>
   <li {% if status == OPEN %}class="active"{% endif %}><a data-toggle="tab" href="#{{ OPEN }}-tab">Open {% if open_count > 0 %}<span class="label label-danger">{{ open_count }}</span>{% endif %}</a></li>
   <li {% if status == CLOSED %}class="active"{% endif %}><a data-toggle="tab" href="#{{ CLOSED }}-tab">Closed {% if closed_count > 0 %}<span class="label label-success">{{ closed_count }}</span>{% endif %}</a></li>
+  <li ><a data-toggle="tab" href="#summary-tab">Summary</a></li>
 </ul>
 
 <div class="tab-content">
   <div id="{{ NEW }}-tab" class="tab-pane fade in {% if status == NEW %}active{% endif %}">
-    {% tmg_listboard_results results_new "There are no new reports to submit." %}
+    {% tmg_listboard_results results_new "There are no new reports to submit for this site." %}
   </div>
   <div id="{{ OPEN }}-tab" class="tab-pane fade in {% if status == OPEN %}active{% endif %}">
-    {% tmg_listboard_results results_open "There are no open reports." %}
+    {% tmg_listboard_results results_open "There are no open reports for this site." %}
   </div>
   <div id="{{ CLOSED }}-tab" class="tab-pane fade in {% if status == CLOSED %}active{% endif %}">
-    {% tmg_listboard_results results_closed "There are no closed reports."%}
+    {% tmg_listboard_results results_closed "There are no closed reports for this site."%}
+  </div>
+  <div id="summary-tab" class="tab-pane fade in">
+    {% tmg_listboard_summary_results results_summary "There are no reports."%}
   </div>
 </div>
 {% endblock main %}
