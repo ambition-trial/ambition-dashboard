@@ -26,6 +26,7 @@ setup(
     zip_safe=False,
     keywords='django ambition dashboard',
     install_requires=[
+        'ambition-auth',
         'ambition-ae',
         'ambition-rando',
         'edc-appointment',
