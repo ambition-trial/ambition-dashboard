@@ -28,11 +28,38 @@ navbar.append_item(
 
 navbar.append_item(
     NavbarItem(
-        name='tmg',
-        label='AE TMG Reports',
+        name='tmg_home',
+        label='TMG Reports',
         fa_icon='fas fa-chalkboard-teacher',
         permission_codename='nav_tmg_section',
-        url_name=settings.DASHBOARD_URL_NAMES['tmg_listboard_url'],
+        url_name='ambition_dashboard:tmg_home_url',
+        no_url_namespace=no_url_namespace))
+
+navbar.append_item(
+    NavbarItem(
+        name='tmg_ae',
+        label='AE Reports',
+        # fa_icon='fas fa-chalkboard-teacher',
+        permission_codename='nav_tmg_section',
+        url_name=settings.DASHBOARD_URL_NAMES['tmg_ae_listboard_url'],
+        no_url_namespace=no_url_namespace))
+
+navbar.append_item(
+    NavbarItem(
+        name='tmg_death',
+        label='Death Reports',
+        # fa_icon='fas fa-chalkboard-teacher',
+        permission_codename='nav_tmg_section',
+        url_name=settings.DASHBOARD_URL_NAMES['tmg_death_listboard_url'],
+        no_url_namespace=no_url_namespace))
+
+navbar.append_item(
+    NavbarItem(
+        name='tmg_summary',
+        label='Summary',
+        # fa_icon='fas fa-chalkboard-teacher',
+        permission_codename='nav_tmg_section',
+        url_name=settings.DASHBOARD_URL_NAMES['tmg_summary_listboard_url'],
         no_url_namespace=no_url_namespace))
 
 site_navbars.register(navbar)

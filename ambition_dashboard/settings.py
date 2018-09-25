@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'edc_registration.apps.AppConfig',
     'edc_visit_schedule.apps.AppConfig',
     'edc_model_wrapper.apps.AppConfig',
+    'ambition_prn.apps.AppConfig',
+    'ambition_ae.apps.AppConfig',
     'ambition_dashboard.apps.EdcAppointmentAppConfig',
     'ambition_dashboard.apps.AppConfig',
 ]
@@ -155,7 +157,9 @@ DASHBOARD_URL_NAMES = {
     'subject_listboard_url': 'ambition_dashboard:subject_listboard_url',
     'screening_listboard_url': 'ambition_dashboard:screening_listboard_url',
     'subject_dashboard_url': 'ambition_dashboard:subject_dashboard_url',
-    'tmg_listboard_url': 'ambition_dashboard:tmg_listboard_url',
+    'tmg_summary_listboard_url': 'ambition_dashboard:tmg_summary_listboard_url',
+    'tmg_ae_listboard_url': 'ambition_dashboard:tmg_ae_listboard_url',
+    'tmg_death_listboard_url': 'ambition_dashboard:tmg_death_listboard_url',
 }
 
 DASHBOARD_BASE_TEMPLATES = {
