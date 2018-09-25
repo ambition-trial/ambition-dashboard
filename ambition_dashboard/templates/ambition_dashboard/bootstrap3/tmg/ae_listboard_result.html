@@ -3,33 +3,20 @@
 {% load static %}
 {% load edc_base_extras %}
 
-<div class="panel">  
-<!-- begin table -->
-<div class="table-responsive">
-<table class="table table-condensed table-hover small">
-<thead>
 
-    <!-- begin results header -->
-    <th>AE TMG Reports</th>
-    <!-- end results header -->
-
-</thead><tbody>
+<div class="col-md-12">
+    <div class="row">
 
 {% if not results %}
-    <tr> 
-    <td>
-        <div class="alert alert-success">
-            <h6><i class="fas fa-thumbs-up fa-lg"></i> {{ empty_message }}</h6>
-        </div>
-    </td>
-    </tr>
+    <div class="alert alert-success">
+        <h6><i class="fas fa-thumbs-up fa-lg"></i> {{ empty_message }}</h6>
+    </div>
 {% endif %}
 
 {% for result in results %}
-    <tr> 
-    <td>
         <div class="panel panel-default">
-            <div class="panel-heading"><H5><span class="badge">{{ forloop.counter }}</span> {{ result.subject_identifier }}  <i><span class="text text-muted small">{{ utc_date|timeuntil:result.report_date }} ago</span></i></H5></div>
+        <div class="panel-heading"><h5><span class="badge">{{ forloop.counter }}</span> <span class="text text-uppercase">{{ result.subject_identifier }}</span> <span class="text text-muted small">{{ utc_date|timeuntil:result.report_date }} ago</span></h5></div>
+        <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
             <div class="list-group">
@@ -49,14 +36,34 @@
                         <i>May only be viewed by {{ result.reference_obj.user_created }}</i>
                     </div>
                 {% endif %}
-            <div class="list-group-item"><b>Created:</b> {{ result.reference_obj.user_created|default:"---" }}&nbsp;{{ result.reference_obj.created|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
-            <div class="list-group-item"><b>Last modified:</b> {{ result.reference_obj.user_modified|default:"---" }}&nbsp;{{ result.reference_obj.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+            {% if result.reference_obj %}
+                <div class="list-group-item"><b>Created:</b> {{ result.reference_obj.user_created|default:"---" }}&nbsp;{{ result.reference_obj.created|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+                <div class="list-group-item"><b>Last modified:</b> {{ result.reference_obj.user_modified|default:"---" }}&nbsp;{{ result.reference_obj.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+            {% endif %}
             </div>
-        </div>
 
-        <div class="col-md-4">
 
-        <div class="list-group">
+            {% if result.death_report_obj %}
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-{% if result.death_report_tmg_obj %}success{% else%}warning{% endif %}"
+                    title="Edit {{ result.death_report_tmg_obj.object }}"
+                    href="{{ result.death_report_tmg_obj.href }}death_report={{result.death_report_tmg_obj.death_report}}&action_identifier={{result.death_report_tmg_obj.action_identifier}}&">
+                    {% if result.death_report_tmg_obj %}<i class="fas fa-pencil-alt fa-fw"></i> {% else %}<i class="fas fa-plus fa-fw"></i> {% endif %}
+                    Death Report TMG {% if result.death_report_tmg_obj %}{{ result.death_report_tmg_obj.object }}{% endif %}{% if result.death_report_tmg_obj.object.report_status == OPEN %} &nbsp;<span class="label label-danger">OPEN</span>{% endif %}</a>
+                    {% if result.death_report_tmg_obj %}
+                        <div class="list-group-item"><b>Created:</b> {{ result.death_report_tmg_obj.object.user_created|default:"---" }}&nbsp;{{ result.death_report_tmg_obj.object.created|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+                        <div class="list-group-item"><b>Last modified:</b> {{ result.death_report_tmg_obj.object.user_modified|default:"---" }}&nbsp;{{ result.death_report_tmg_obj.object.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+                    {% endif %}
+                </div>
+
+            {% endif %}
+
+
+            </div>
+
+            <div class="col-md-4">
+
+            <div class="list-group">
 
             {% if result.parent_reference_obj %}
                 {% if result.has_parent_reference_obj_permissions %}
@@ -108,12 +115,12 @@
             
             
             {% if result.parent_reference_obj.action_identifier != result.related_reference_obj.action_identifier%}
-            {% for obj in result.parent_reference_obj.ae_follow_ups %}
-                <a class="list-group-item list-group-item-info" role="button"
-                title="View {{ obj }}"
-                href="{{ obj.get_absolute_url }}">
-                <i class="fas fa-eye fa-fw"></i> AE Followup {{ obj }} <span class="text text-muted">{{ utc_date|timeuntil:obj.report_date }}</span></a>
-            {% endfor %}
+                {% for obj in result.parent_reference_obj.ae_follow_ups %}
+                    <a class="list-group-item list-group-item-info" role="button"
+                    title="View {{ obj }}"
+                    href="{{ obj.get_absolute_url }}">
+                    <i class="fas fa-eye fa-fw"></i> AE Followup {{ obj }} <span class="text text-muted">{{ utc_date|timeuntil:obj.report_date }}</span></a>
+                {% endfor %}
             {% endif %}
 
             {% for obj in result.related_reference_obj.ae_follow_ups %}
@@ -127,34 +134,26 @@
                 <div class="list-group-item">There are no follow-ups to this AE</div>
             {% endif %}
 
+            {% if result.death_report_obj %}
+                <a class="list-group-item list-group-item-info" role="button"
+                title="View {{ result.death_report_obj.object }}"
+                href="{{ result.death_report_obj.href }}">
+                <i class="fas fa-eye fa-fw"></i> Death Report {{ result.death_report_obj.object }} <span class="text text-muted">{{ utc_date|timeuntil:result.death_report_obj.object.death_datetime }}</span></a>
+            {% endif %}
+
             <a class="list-group-item list-group-item-default" role="button" 
             title="to subject dashboard"
             href="{% url subject_dashboard_url subject_identifier=result.subject_identifier  %}">
             <i class="fas fa-user-circle fa-sm"></i> Subject Dashboard  <i class="fas fa-share"></i></a>
 
+            </div>
         </div>
         </div>
         </div>
-    </td>
-    </tr>                       
 
 {% endfor %}
 
-</tbody></table>
+<div class="well">{% paginator_row %}</div>
 
-<!-- begin spacer rows -->
-<table>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-<!-- end spacer rows -->
-
-</div><!-- end table -->
-
-{% paginator_row %}
-
-</div>  <!--end panel -->
-<!-- end listboard main block -->
+</div>
+</div>

@@ -1,0 +1,57 @@
+{% extends edc_listboard_template %}
+
+{% load edc_base_extras %}
+{% load edc_dashboard_extras %}
+{% load tz %}
+{% load static %}
+
+
+{% block listboard_table_header %}
+
+    <!-- begin results header -->
+        <th>#</th>
+        <th>Subject</th>
+        <th>TMG Death Report</th>
+        <th>Death Report</th>
+        <th>Action Item References</th>
+    <!-- end results header -->
+
+{% endblock listboard_table_header %}
+
+{% block listboard_table_button_column %}{% endblock %}
+
+
+{% block listboard_table_columns %}
+    
+    <td>
+    <B>{{ result.subject_identifier }}</B>
+    <BR>{{ result.object.site.name }}
+    </td>
+
+    <td>
+    {% if result.death_report_tmg.id %}
+        <a class="btn btn-sm btn-success" title="Edit TMG Death Report" href="{{ result.death_report_tmg.href }}death_report={{result.pk }}&action_identifier={{ result.death_report_tmg.action_identifier }}" role="button"><i class="fas fa-pencil-alt fa-fw"></i></a>
+    {% else %}
+        <a class="btn btn-sm btn-warning" title="Add TMG Death Report" href="{{ result.death_report_tmg.href }}death_report={{result.pk }}&action_identifier={{ result.death_report_tmg.action_identifier }}" role="button"><i class="fas fa-plus fa-fw"></i></a>
+    {% endif %}
+    {% if result.death_report_tmg.id %}
+        <BR><span class="label label-{% if result.death_report_tmg.object.report_status == OPEN %}default{% else %}success{% endif %}">{{ result.death_report_tmg.object.report_status }}</span>
+        {{ result.death_report_tmg.object.identifier }}
+        <BR>{{ result.death_report_tmg.object.report_datetime|date:"SHORT_DATE_FORMAT" }}
+        <BR>{{ result.death_report_tmg.object.user_created }}{% if result.death_report_tmg.object.user_modified %}/{{result.death_report_tmg.object.user_modified}}{% endif %}
+    {% else %}
+        <br><span class="label label-danger">New</span>
+    {% endif %}
+    </td>
+    
+    <td><a title="View Death Report" href="{% if SITE_ID != result.object.site.id %}#{% else %}{{ result.href }}{% endif %}" role="button" class="btn btn-sm btn-info" {% if SITE_ID != result.object.site.id %}disabled{% endif %} ><i class="fas fa-eye fa-fw"></i>&nbsp;<tt>{{ result.object.identifier }}</tt></span></a>
+    <BR>Died {{ result.object.death_datetime|date:"SHORT_DATE_FORMAT" }}
+    <BR>Reported on {{ result.object.report_datetime|date:"SHORT_DATE_FORMAT" }}
+    <BR>{% if result.object.cause_of_death == OTHER %}{{ result.object.cause_of_death_other }}{% else %}{{ result.object.get_cause_of_death_display }}{% endif %}</td>
+
+    <td>
+        {{ result.object.action_identifier }}&nbsp;{{ result.object.action_item.status|title }}
+        <BR>{{ result.death_report_tmg.action_identifier }}&nbsp;{{ result.death_report_tmg.object.action_item.status|title }}
+    </td>
+
+{% endblock listboard_table_columns %}

@@ -60,16 +60,8 @@ def dashboard_button(model_wrapper):
 
 
 @register.inclusion_tag(f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/'
-                        f'tmg/listboard_result.html', takes_context=True)
+                        f'tmg/ae_listboard_result.html', takes_context=True)
 def tmg_listboard_results(context, results, empty_message=None):
-    context['results'] = results
-    context['empty_message'] = empty_message
-    return context
-
-
-@register.inclusion_tag(f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/'
-                        f'tmg/listboard_summary_result.html', takes_context=True)
-def tmg_listboard_summary_results(context, results, empty_message=None):
     context['results'] = results
     context['empty_message'] = empty_message
     return context

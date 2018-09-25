@@ -28,6 +28,7 @@ setup(
     install_requires=[
         'ambition-auth',
         'ambition-ae',
+        'ambition-prn',
         'ambition-rando',
         'edc-appointment',
         'edc-base',

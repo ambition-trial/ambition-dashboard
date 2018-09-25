@@ -1,49 +1,42 @@
 import arrow
 import re
-import six
 
 from ambition_ae.action_items import AE_TMG_ACTION
 from ambition_auth import TMG
-from copy import copy
 from django.apps import apps as django_apps
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.utils.decorators import method_decorator
-from edc_action_item.model_wrappers import ActionItemModelWrapper as BaseActionItemModelWrapper
+from django.utils.text import slugify
 from edc_base.view_mixins import EdcBaseViewMixin
-from edc_constants.constants import CLOSED, NEW, OPEN
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
-from django.utils.text import slugify
+
+from ...model_wrappers import ActionItemModelWrapper
 
 
-class ActionItemModelWrapper(BaseActionItemModelWrapper):
-    next_url_name = settings.DASHBOARD_URL_NAMES.get('tmg_listboard_url')
-
-
-class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
-                    ListboardFilterViewMixin, SearchFormViewMixin,
-                    BaseListboardView):
+class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
+                           ListboardFilterViewMixin, SearchFormViewMixin,
+                           BaseListboardView):
 
     ae_tmg_model = 'ambition_ae.aetmg'
 
-    listboard_template = 'tmg_listboard_template'
-    listboard_url = 'tmg_listboard_url'
+    listboard_template = 'tmg_summary_listboard_template'
+    listboard_url = 'tmg_summary_listboard_url'
     listboard_panel_style = 'warning'
     listboard_fa_icon = "fa-chalkboard-teacher"
     listboard_model = 'edc_action_item.actionitem'
-    listboard_panel_title = 'Adverse Event TMG Reports'
+    listboard_panel_title = 'TMG Summary'
     listboard_view_permission_codename = 'edc_dashboard.view_tmg_listboard'
 
     model_wrapper_cls = ActionItemModelWrapper
     navbar_name = 'ambition_dashboard'
-    navbar_selected_item = 'tmg'
+    navbar_selected_item = 'tmg_summary'
     ordering = '-report_datetime'
-    paginate_by = 15
-    search_form_url = 'tmg_listboard_url'
+    paginate_by = 50
+    search_form_url = 'tmg_summary_listboard_url'
     action_type_names = [AE_TMG_ACTION]
 
     @method_decorator(login_required)
@@ -53,27 +46,12 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['AE_TMG_ACTION'] = AE_TMG_ACTION
-        context['status'] = NEW if self.request.GET.get('status') not in [
-            NEW, OPEN, CLOSED] else self.request.GET.get('status')
-        results = copy(context['results'])
-        context['new_count'] = self.listboard_model_cls.on_site.filter(
-            action_type__name=AE_TMG_ACTION,
-            status=NEW).count()
-        context['open_count'] = self.listboard_model_cls.on_site.filter(
-            action_type__name=AE_TMG_ACTION,
-            status=OPEN).count()
-        context['closed_count'] = self.listboard_model_cls.on_site.filter(
-            action_type__name=AE_TMG_ACTION,
-            status=CLOSED).count()
-        context['results_new'] = [
-            r for r in results if r.object.status == NEW]
-        context['results_open'] = [
-            r for r in results if r.object.status == OPEN]
-        context['results_closed'] = [
-            r for r in results if r.object.status == CLOSED]
-        context['results_summary'] = self.get_wrapped_queryset(
-            self.listboard_model_cls.objects.filter(
-                action_type__name=AE_TMG_ACTION).order_by(self.ordering))
+#         context['status'] = NEW if self.request.GET.get('status') not in [
+#             NEW, OPEN, CLOSED] else self.request.GET.get('status')
+#         results = copy(context['results'])
+#         context['results_summary'] = self.get_wrapped_queryset(
+#             self.listboard_model_cls.objects.filter(
+#                 action_type__name=AE_TMG_ACTION).order_by(self.ordering))
         context['utc_date'] = arrow.now().date()
         return context
 
@@ -82,27 +60,6 @@ class ListboardView(NavbarViewMixin, EdcBaseViewMixin,
         if re.match('^[A-Z]+$', search_term):
             q = Q(first_name__exact=search_term)
         return q
-
-#     def get_queryset(self):
-#         qs = super().get_queryset()
-#         qs = qs.filter(
-#             action_type__name__in=self.action_type_names)
-#         ordering = self.get_ordering()
-#         if ordering:
-#             if isinstance(ordering, six.string_types):
-#                 ordering = (ordering,)
-#             return qs.order_by(*ordering)
-#         return qs
-
-#     def get_wrapped_queryset(self, queryset):
-#         """Returns a list of wrapped model instances.
-#         """
-#         object_list = []
-#         for obj in queryset:
-#             model_wrapper = self.model_wrapper_cls(obj)
-#             model_wrapper = self.update_instance_permissions(model_wrapper)
-#             object_list.append(model_wrapper)
-#         return object_list
 
     def get_filtered_queryset(self, filter_options=None, exclude_options=None):
         """Returns a queryset after searching against AE TMG.
