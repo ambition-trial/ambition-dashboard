@@ -3,19 +3,14 @@ import re
 
 from ambition_ae.action_items import AE_TMG_ACTION, AE_FOLLOWUP_ACTION
 from ambition_auth import TMG
-from django.apps import apps as django_apps
-from django.contrib.auth.decorators import login_required
+from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION, DEATH_REPORT_ACTION
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
-from django.utils.decorators import method_decorator
-from django.utils.text import slugify
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 
 from ...model_wrappers import ActionItemModelWrapper
-from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION
 
 
 class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
@@ -39,7 +34,9 @@ class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
     paginate_by = 25
     search_form_url = 'tmg_summary_listboard_url'
     action_type_names = [AE_TMG_ACTION,
-                         DEATH_REPORT_TMG_ACTION, AE_FOLLOWUP_ACTION]
+                         DEATH_REPORT_TMG_ACTION,
+                         DEATH_REPORT_ACTION,
+                         AE_FOLLOWUP_ACTION]
     search_fields = ['subject_identifier',
                      'action_identifier',
                      'parent_reference_identifier',
