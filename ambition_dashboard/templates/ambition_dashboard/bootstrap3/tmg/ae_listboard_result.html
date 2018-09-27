@@ -3,7 +3,6 @@
 {% load static %}
 {% load edc_base_extras %}
 
-
 <div class="col-md-12">
     <div class="row">
 
@@ -15,7 +14,7 @@
 
 {% for result in results %}
         <div class="panel panel-default">
-        <div class="panel-heading"><h5><span class="badge">{{ forloop.counter }}</span> <span class="text text-uppercase">{{ result.subject_identifier }}</span> <span class="text text-muted small">{{ utc_date|timeuntil:result.report_date }} ago</span></h5></div>
+        <div class="panel-heading"><h5><span class="badge">{{ forloop.counter }}</span> <span class="text text-uppercase">{{ result.subject_identifier }}</span> {% copy_string_to_clipboard_button result.subject_identifier %} <span class="text text-muted small">{{ utc_date|timeuntil:result.report_date }} ago</span></h5></div>
         <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
@@ -42,19 +41,20 @@
             {% endif %}
             </div>
 
-
-            {% if result.death_report_obj %}
-                <div class="list-group">
-                    <a class="list-group-item list-group-item-{% if result.death_report_tmg_obj %}success{% else%}warning{% endif %}"
-                    title="Edit {{ result.death_report_tmg_obj.object }}"
-                    href="{{ result.death_report_tmg_obj.href }}death_report={{result.death_report_tmg_obj.death_report}}&action_identifier={{result.death_report_tmg_obj.action_identifier}}&">
-                    {% if result.death_report_tmg_obj %}<i class="fas fa-pencil-alt fa-fw"></i> {% else %}<i class="fas fa-plus fa-fw"></i> {% endif %}
-                    Death Report TMG {% if result.death_report_tmg_obj %}{{ result.death_report_tmg_obj.object }}{% endif %}{% if result.death_report_tmg_obj.object.report_status == OPEN %} &nbsp;<span class="label label-danger">OPEN</span>{% endif %}</a>
-                    {% if result.death_report_tmg_obj %}
-                        <div class="list-group-item"><b>Created:</b> {{ result.death_report_tmg_obj.object.user_created|default:"---" }}&nbsp;{{ result.death_report_tmg_obj.object.created|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
-                        <div class="list-group-item"><b>Last modified:</b> {{ result.death_report_tmg_obj.object.user_modified|default:"---" }}&nbsp;{{ result.death_report_tmg_obj.object.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+            {% if result.death_report %}
+                {% for obj in result.death_report.tmg_death_reports %}
+                    <div class="list-group">
+                    <a class="list-group-item list-group-item-{% if obj %}success{% else%}warning{% endif %}"
+                    title="Edit {{ obj.object }}"
+                    href="{{ obj.href }}death_report={{obj.death_report}}&action_identifier={{obj.action_identifier}}&">
+                    {% if obj %}<i class="fas fa-pencil-alt fa-fw"></i> {% else %}<i class="fas fa-plus fa-fw"></i> {% endif %}
+                    Death Report TMG {% if obj %}{{ obj.object }}{% endif %}{% if obj.object.report_status == OPEN %}&nbsp;<span class="label label-danger">OPEN</span>{% endif %}</a>
+                    {% if obj %}
+                        <div class="list-group-item"><b>Created:</b> {{ obj.object.user_created|default:"---" }}&nbsp;{{ obj.object.created|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
+                        <div class="list-group-item"><b>Last modified:</b> {{ obj.object.user_modified|default:"---" }}&nbsp;{{ obj.object.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
                     {% endif %}
-                </div>
+                    </div>
+                {% endfor %}
 
             {% endif %}
 
@@ -86,7 +86,7 @@
                 <div class="list-group-item"><b>Last modified:</b> {{ result.parent_reference_obj.user_modified|default:"---" }}&nbsp;{{ result.parent_reference_obj.modified|date:"SHORT_DATETIME_FORMAT"|default:"---" }}</div>
             {% endif %}    
 
-            {% if result.related_reference_obj and result.parent_reference_obj.action_identifier !=  result.related_reference_obj.action_identifier %}
+            {% if result.related_reference_obj and result.parent_reference_obj.action_identifier != result.related_reference_obj.action_identifier %}
                 {% if result.has_parent_reference_obj_permissions %}
                     <a class="list-group-item list-group-item-{% if 'TMG' in result.related_reference_model_name %}success{% else%}info{% endif %}" role="button"
                     title="View {{ result.related_reference_model_name }}"
@@ -134,17 +134,22 @@
                 <div class="list-group-item">There are no follow-ups to this AE</div>
             {% endif %}
 
-            {% if result.death_report_obj %}
+            {% if result.death_report %}
                 <a class="list-group-item list-group-item-info" role="button"
-                title="View {{ result.death_report_obj.object }}"
-                href="{{ result.death_report_obj.href }}">
-                <i class="fas fa-eye fa-fw"></i> Death Report {{ result.death_report_obj.object }} <span class="text text-muted">{{ utc_date|timeuntil:result.death_report_obj.object.death_datetime }}</span></a>
+                title="View {{ result.death_report.object }}"
+                href="{{ result.death_report.href }}">
+                <i class="fas fa-eye fa-fw"></i> Death Report {{ result.death_report.object }} <span class="text text-muted">{{ utc_date|timeuntil:result.death_report.object.death_datetime }}</span></a>
             {% endif %}
 
             <a class="list-group-item list-group-item-default" role="button" 
             title="to subject dashboard"
             href="{% url subject_dashboard_url subject_identifier=result.subject_identifier  %}">
             <i class="fas fa-user-circle fa-sm"></i> Subject Dashboard  <i class="fas fa-share"></i></a>
+
+
+            <a class="list-group-item list-group-item-default" role="button" 
+            title=""
+            href="{{ result.href }}">{{ result.object }}</a>
 
             </div>
         </div>
