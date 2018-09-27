@@ -1,7 +1,7 @@
 import arrow
 import re
 
-from ambition_ae.action_items import AE_TMG_ACTION
+from ambition_ae.action_items import AE_TMG_ACTION, AE_FOLLOWUP_ACTION
 from ambition_auth import TMG
 from django.apps import apps as django_apps
 from django.contrib.auth.decorators import login_required
@@ -15,6 +15,7 @@ from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 
 from ...model_wrappers import ActionItemModelWrapper
+from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION
 
 
 class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
@@ -35,76 +36,27 @@ class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'tmg_summary'
     ordering = '-report_datetime'
-    paginate_by = 50
+    paginate_by = 25
     search_form_url = 'tmg_summary_listboard_url'
-    action_type_names = [AE_TMG_ACTION]
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    action_type_names = [AE_TMG_ACTION,
+                         DEATH_REPORT_TMG_ACTION, AE_FOLLOWUP_ACTION]
+    search_fields = ['subject_identifier',
+                     'action_identifier',
+                     'parent_reference_identifier',
+                     'related_reference_identifier',
+                     'user_created',
+                     'user_modified']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['AE_TMG_ACTION'] = AE_TMG_ACTION
-#         context['status'] = NEW if self.request.GET.get('status') not in [
-#             NEW, OPEN, CLOSED] else self.request.GET.get('status')
-#         results = copy(context['results'])
-#         context['results_summary'] = self.get_wrapped_queryset(
-#             self.listboard_model_cls.objects.filter(
-#                 action_type__name=AE_TMG_ACTION).order_by(self.ordering))
         context['utc_date'] = arrow.now().date()
         return context
 
-    def extra_search_options(self, search_term):
-        q = Q()
-        if re.match('^[A-Z]+$', search_term):
-            q = Q(first_name__exact=search_term)
-        return q
-
-    def get_filtered_queryset(self, filter_options=None, exclude_options=None):
-        """Returns a queryset after searching against AE TMG.
-        """
-        filter_options = filter_options or {}
-        filter_options.update(action_type__name__in=self.action_type_names)
-        if self.search_term and '|' not in self.search_term:
-            ae_tmg_model_cls = django_apps.get_model(self.ae_tmg_model)
-            search_terms = self.search_term.split('+')
-            q = None
-            q_objects = []
-            for search_term in search_terms:
-                q_objects.append(
-                    Q(subject_identifier__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(action_identifier__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(ae_initial__ae_classification__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(user_created__iexact=slugify(search_term)))
-                q_objects.append(
-                    Q(parent_reference_identifier__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(related_reference_identifier__icontains=slugify(search_term)))
-            for q_object in q_objects:
-                if q:
-                    q = q | q_object
-                else:
-                    q = q_object
-            tmg_queryset = ae_tmg_model_cls._default_manager.filter(q or Q())
-            queryset = self.listboard_model_cls._default_manager.filter(
-                action_identifier__in=[
-                    obj.action_identifier for obj in tmg_queryset],
-                **filter_options).exclude(**exclude_options)
-        else:
-            queryset = super().get_filtered_queryset(
-                filter_options=filter_options,
-                exclude_options=exclude_options)
-
-        ordering = self.get_ordering()
-        if ordering:
-            if isinstance(ordering, str):
-                ordering = (ordering,)
-            queryset = queryset.order_by(*ordering)
-        return queryset
+    def get_queryset_filter_options(self, request, *args, **kwargs):
+        options = super().get_queryset_filter_options(request, *args, **kwargs)
+        options.update({'action_type__name__in': self.action_type_names})
+        return options
 
     def update_wrapped_instance(self, model_wrapper):
         model_wrapper.has_reference_obj_permissions = True

@@ -15,9 +15,8 @@ from edc_constants.constants import CLOSED, NEW, OPEN
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
-from ambition_prn.models.death_report import DeathReport
 
-from ...model_wrappers import DeathReportModelWrapper, ActionItemModelWrapper
+from ...model_wrappers import ActionItemModelWrapper
 
 
 class AeListboardView(NavbarViewMixin, EdcBaseViewMixin,
@@ -42,9 +41,12 @@ class AeListboardView(NavbarViewMixin, EdcBaseViewMixin,
     search_form_url = 'tmg_ae_listboard_url'
     action_type_names = [AE_TMG_ACTION]
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    search_fields = ['subject_identifier',
+                     'action_identifier',
+                     'parent_reference_identifier',
+                     'related_reference_identifier',
+                     'user_created',
+                     'user_modified']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,57 +62,6 @@ class AeListboardView(NavbarViewMixin, EdcBaseViewMixin,
             r for r in results if r.object.status == CLOSED]
         context['utc_date'] = arrow.now().date()
         return context
-
-    def extra_search_options(self, search_term):
-        q = Q()
-        if re.match('^[A-Z]+$', search_term):
-            q = Q(first_name__exact=search_term)
-        return q
-
-    def get_filtered_queryset(self, filter_options=None, exclude_options=None):
-        """Returns a queryset after searching against AE TMG.
-        """
-        filter_options = filter_options or {}
-        filter_options.update(action_type__name__in=self.action_type_names)
-        if self.search_term and '|' not in self.search_term:
-            ae_tmg_model_cls = django_apps.get_model(self.ae_tmg_model)
-            search_terms = self.search_term.split('+')
-            q = None
-            q_objects = []
-            for search_term in search_terms:
-                q_objects.append(
-                    Q(subject_identifier__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(action_identifier__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(ae_initial__ae_classification__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(user_created__iexact=slugify(search_term)))
-                q_objects.append(
-                    Q(parent_reference_identifier__icontains=slugify(search_term)))
-                q_objects.append(
-                    Q(related_reference_identifier__icontains=slugify(search_term)))
-            for q_object in q_objects:
-                if q:
-                    q = q | q_object
-                else:
-                    q = q_object
-            tmg_queryset = ae_tmg_model_cls._default_manager.filter(q or Q())
-            queryset = self.listboard_model_cls._default_manager.filter(
-                action_identifier__in=[
-                    obj.action_identifier for obj in tmg_queryset],
-                **filter_options).exclude(**exclude_options)
-        else:
-            queryset = super().get_filtered_queryset(
-                filter_options=filter_options,
-                exclude_options=exclude_options)
-
-        ordering = self.get_ordering()
-        if ordering:
-            if isinstance(ordering, str):
-                ordering = (ordering,)
-            queryset = queryset.order_by(*ordering)
-        return queryset
 
     def update_wrapped_instance(self, model_wrapper):
         model_wrapper.has_reference_obj_permissions = True

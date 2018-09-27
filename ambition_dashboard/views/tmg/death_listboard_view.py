@@ -1,22 +1,13 @@
-import arrow
 import re
 
-from ambition_ae.action_items import AE_TMG_ACTION
-from ambition_auth import TMG
-from copy import copy
-from django.apps import apps as django_apps
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
+from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION
 from django.db.models import Q
-from django.utils.decorators import method_decorator
-from django.utils.text import slugify
 from edc_base.view_mixins import EdcBaseViewMixin
-from edc_constants.constants import CLOSED, NEW, OPEN
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 
-from ...model_wrappers import DeathReportModelWrapper
+from ...model_wrappers import ActionItemModelWrapper
 
 
 class DeathListboardView(NavbarViewMixin, EdcBaseViewMixin,
@@ -27,19 +18,34 @@ class DeathListboardView(NavbarViewMixin, EdcBaseViewMixin,
     listboard_url = 'tmg_death_listboard_url'
     listboard_panel_style = 'warning'
     listboard_fa_icon = "fa-chalkboard-teacher"
-    listboard_model = 'ambition_prn.deathreport'
+    listboard_model = 'edc_action_item.actionitem'
+    listboard_model_manager_name = 'objects'
     listboard_panel_title = 'TMG Death Reports'
     listboard_view_permission_codename = 'edc_dashboard.view_tmg_listboard'
-
-    model_wrapper_cls = DeathReportModelWrapper
+    model_wrapper_cls = ActionItemModelWrapper
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'tmg_death'
-    ordering = '-report_datetime'
-    paginate_by = 15
+    ordering = '-created'
+    paginate_by = 25
     search_form_url = 'tmg_death_listboard_url'
+    search_fields = ['subject_identifier',
+                     'action_identifier',
+                     'parent_reference_identifier',
+                     'related_reference_identifier',
+                     'user_created',
+                     'user_modified']
+    action_type_names = [DEATH_REPORT_TMG_ACTION]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.kwargs.get('subject_identifier'):
+            context.update(
+                {'q': self.kwargs.get('subject_identifier')})
+        return context
 
     def get_queryset_filter_options(self, request, *args, **kwargs):
         options = super().get_queryset_filter_options(request, *args, **kwargs)
+        options.update(action_type__name__in=self.action_type_names)
         if kwargs.get('subject_identifier'):
             options.update(
                 {'subject_identifier': kwargs.get('subject_identifier')})
