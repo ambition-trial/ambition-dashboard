@@ -43,9 +43,9 @@
         <BR>Modified: {{ result.tmg_death_report.object.modified|date:"SHORT_DATE_FORMAT" }}{% endif %}
         <BR>{{ result.tmg_death_report.object.user_created }}{% if result.tmg_death_report.object.user_modified %}/{{result.tmg_death_report.object.user_modified}}{% endif %}
     {% endif %}
-    {% if result.tmg_death_report.object.parent_reference_identifier != result.tmg_death_report.object.related_reference_identifier%}
+    {% if result.tmg_death_report.object.parent_action_identifier != result.tmg_death_report.object.related_action_identifier%}
         <BR>Refers to TMG Death Report
-        <BR><a href="#{{ result.tmg_death_report.object.parent_reference_identifier }}">{{ result.tmg_death_report.object.parent_reference_identifier }}</a> {% copy_string_to_clipboard_button result.tmg_death_report.object.parent_reference_identifier %}
+        <BR><a href="#{{ result.tmg_death_report.object.parent_action_identifier }}">{{ result.tmg_death_report.object.parent_action_identifier }}</a> {% copy_string_to_clipboard_button result.tmg_death_report.object.parent_action_identifier %}
     {% endif %}
     </td>
     

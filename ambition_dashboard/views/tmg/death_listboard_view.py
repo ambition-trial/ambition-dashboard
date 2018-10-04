@@ -30,8 +30,8 @@ class DeathListboardView(NavbarViewMixin, EdcBaseViewMixin,
     search_form_url = 'tmg_death_listboard_url'
     search_fields = ['subject_identifier',
                      'action_identifier',
-                     'parent_reference_identifier',
-                     'related_reference_identifier',
+                     'parent_action_identifier',
+                     'related_action_identifier',
                      'user_created',
                      'user_modified']
     action_type_names = [DEATH_REPORT_TMG_ACTION]

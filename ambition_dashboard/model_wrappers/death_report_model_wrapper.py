@@ -25,7 +25,7 @@ class DeathReportModelWrapper(ModelWrapper):
     def tmg_death_reports(self):
         objs = []
         for action_item in ActionItem.objects.filter(
-                related_reference_identifier=self.object.action_identifier,
+                related_action_identifier=self.object.action_identifier,
                 action_type__name=DEATH_REPORT_TMG_ACTION):
             try:
                 objs.append(DeathReportTmgModelWrapper(
@@ -37,7 +37,7 @@ class DeathReportModelWrapper(ModelWrapper):
                         death_report=self.object,
                         subject_identifier=self.object.subject_identifier,
                         action_identifier=action_item.action_identifier,
-                        parent_reference_identifier=action_item.parent_reference_identifier,
-                        related_reference_identifier=action_item.related_reference_identifier)
+                        parent_action_identifier=action_item.parent_action_identifier,
+                        related_action_identifier=action_item.related_action_identifier)
                 ))
         return objs
