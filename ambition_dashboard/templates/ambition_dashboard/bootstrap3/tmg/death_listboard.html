@@ -37,7 +37,8 @@
 
     <td>
     {% if result.tmg_death_report.id %}
-        <span class="label label-{% if result.tmg_death_report.object.report_status == OPEN %}default{% else %}success{% endif %}">{{ result.tmg_death_report.object.report_status }}</span>
+        <span class="label label-{% if result.tmg_death_report.object.action_item.status|default:result.tmg_death_report.object.report_status == OPEN %}default{% else %}success{% endif %}">
+        {{ result.tmg_death_report.object.action_item.status|default:result.tmg_death_report.object.report_status }}</span>
         <BR>Reported: {{ result.tmg_death_report.object.report_datetime|date:"SHORT_DATE_FORMAT" }}
         <BR>Created: {{ result.tmg_death_report.object.created|date:"SHORT_DATE_FORMAT" }}{% if result.tmg_death_report.object.user_modified %}
         <BR>Modified: {{ result.tmg_death_report.object.modified|date:"SHORT_DATE_FORMAT" }}{% endif %}
