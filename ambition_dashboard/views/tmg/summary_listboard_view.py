@@ -1,5 +1,4 @@
 import arrow
-import re
 
 from ambition_ae.action_items import AE_TMG_ACTION, AE_FOLLOWUP_ACTION
 from ambition_auth import TMG
@@ -39,8 +38,8 @@ class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
                          AE_FOLLOWUP_ACTION]
     search_fields = ['subject_identifier',
                      'action_identifier',
-                     'parent_reference_identifier',
-                     'related_reference_identifier',
+                     'parent_action_identifier',
+                     'related_action_identifier',
                      'user_created',
                      'user_modified']
 

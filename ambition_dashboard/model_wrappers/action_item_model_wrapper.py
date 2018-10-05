@@ -48,8 +48,8 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
                     death_report=self.death_report.object,
                     subject_identifier=self.object.subject_identifier,
                     action_identifier=self.object.action_identifier,
-                    parent_reference_identifier=self.object.parent_reference_identifier,
-                    related_reference_identifier=self.object.related_reference_identifier))
+                    parent_action_identifier=self.object.parent_action_identifier,
+                    related_action_identifier=self.object.related_action_identifier))
         return wrapped
 
     @property

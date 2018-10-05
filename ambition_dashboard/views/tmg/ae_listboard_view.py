@@ -1,15 +1,9 @@
 import arrow
-import re
 
 from ambition_ae.action_items import AE_TMG_ACTION
 from ambition_auth import TMG
 from copy import copy
-from django.apps import apps as django_apps
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
-from django.utils.decorators import method_decorator
-from django.utils.text import slugify
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_constants.constants import CLOSED, NEW, OPEN
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
@@ -43,8 +37,8 @@ class AeListboardView(NavbarViewMixin, EdcBaseViewMixin,
 
     search_fields = ['subject_identifier',
                      'action_identifier',
-                     'parent_reference_identifier',
-                     'related_reference_identifier',
+                     'parent_action_identifier',
+                     'related_action_identifier',
                      'user_created',
                      'user_modified']
 
