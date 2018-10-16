@@ -38,8 +38,8 @@ class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
                          AE_FOLLOWUP_ACTION]
     search_fields = ['subject_identifier',
                      'action_identifier',
-                     'parent_action_identifier',
-                     'related_action_identifier',
+                     'parent_action_item__action_identifier',
+                     'related_action_item__action_identifier',
                      'user_created',
                      'user_modified']
 
