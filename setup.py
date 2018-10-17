@@ -30,6 +30,7 @@ setup(
         'ambition-ae',
         'ambition-prn',
         'ambition-rando',
+        'ambition_subject',
         'edc-appointment',
         'edc-base',
         'edc-consent',
