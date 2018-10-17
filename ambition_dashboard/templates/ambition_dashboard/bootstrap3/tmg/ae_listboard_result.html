@@ -142,9 +142,9 @@
             {% endif %}
 
             <a class="list-group-item list-group-item-default" role="button" 
-            title="to subject dashboard"
-            href="{% url subject_dashboard_url subject_identifier=result.subject_identifier  %}">
-            <i class="fas fa-user-circle fa-sm"></i> Subject Dashboard  <i class="fas fa-share"></i></a>
+            title="go to list of reported visits for this subject"
+            href="{% url subject_review_listboard_url %}?q={{ result.subject_identifier }}">
+            <i class="fas fa-user-circle fa-sm"></i> Subject Review  <i class="fas fa-share"></i></a>
 
 
             <a class="list-group-item list-group-item-default" role="button" 
