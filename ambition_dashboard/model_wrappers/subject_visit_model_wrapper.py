@@ -14,9 +14,3 @@ class SubjectVisitModelWrapper(BaseSubjectVisitModelWrapper):
                        kwargs=dict(
                            subject_identifier=self.object.subject_identifier,
                            appointment=str(self.object.appointment.pk)))
-
-    @property
-    def subject_label(self):
-        return (f'{self.object.subject_identifier}-'
-                f'{self.object.visit_code}-'
-                f'{self.object.visit_code_sequence}')
