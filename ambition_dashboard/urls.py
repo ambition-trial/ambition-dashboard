@@ -7,7 +7,8 @@ from .patterns import subject_identifier, screening_identifier
 from .views import (
     SubjectListboardView, SubjectDashboardView,
     ScreeningListboardView, TmgAeListboardView,
-    TmgDeathListboardView, TmgHomeView, TmgSummaryListboardView)
+    TmgDeathListboardView, TmgHomeView, TmgSummaryListboardView,
+    SubjectReviewListboardView)
 
 app_name = 'ambition_dashboard'
 
@@ -47,6 +48,12 @@ tmg_summary_listboard_url_config = UrlConfig(
     label='tmg_summary_listboard',
     identifier_label='subject_identifier',
     identifier_pattern=subject_identifier)
+subject_review_listboard_url_config = UrlConfig(
+    url_name='subject_review_listboard_url',
+    view_class=SubjectReviewListboardView,
+    label='subject_review_listboard',
+    identifier_label='subject_identifier',
+    identifier_pattern=subject_identifier)
 
 
 urlpatterns = [
@@ -57,6 +64,7 @@ urlpatterns += subject_dashboard_url_config.dashboard_urls
 urlpatterns += tmg_ae_listboard_url_config.listboard_urls
 urlpatterns += tmg_death_listboard_url_config.listboard_urls
 urlpatterns += tmg_summary_listboard_url_config.listboard_urls
+urlpatterns += subject_review_listboard_url_config.listboard_urls
 
 
 if settings.APP_NAME == 'ambition_dashboard':

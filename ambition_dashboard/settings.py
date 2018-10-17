@@ -160,6 +160,7 @@ DASHBOARD_URL_NAMES = {
     'tmg_summary_listboard_url': 'ambition_dashboard:tmg_summary_listboard_url',
     'tmg_ae_listboard_url': 'ambition_dashboard:tmg_ae_listboard_url',
     'tmg_death_listboard_url': 'ambition_dashboard:tmg_death_listboard_url',
+    'subject_review_listboard_url': 'ambition_dashboard:subject_review_listboard_url',
 }
 
 DASHBOARD_BASE_TEMPLATES = {

@@ -1,0 +1,39 @@
+{% extends edc_listboard_template %}
+
+{% load edc_base_extras %}
+{% load edc_dashboard_extras %}
+{% load tz %}
+{% load static %}
+
+
+{% block listboard_table_header %}
+
+    <!-- begin results header -->
+        <th>#</th>
+        <th>Subject</th>
+        <th>Visit</th>
+        <th>Dashboard</th>
+    <!-- end results header -->
+
+{% endblock listboard_table_header %}
+
+{% block listboard_table_button_column %}{% endblock %}
+
+
+{% block listboard_table_columns %}
+
+    <td>
+        <a id="{{ result.subject_label }}" name="{{ result.subject_label }}"></a>
+        <B>{{ result.subject_identifier }}</B>{% copy_string_to_clipboard_button result.subject_identifier %}
+        <BR>{{ result.object.site.name }}
+    </td>
+
+    <td>
+        {{ result.object.visit_code }}.{{ result.object.visit_code_sequence }} {{ result.object.report_datetime|date:"SHORT_DATE_FORMAT" }} 
+    </td>
+    
+    <td>
+        <a href="{{ result.dashboard_direct_href }}" role="button" class="btn btn-default btn-sm">Dashboard</a>
+    </td>
+
+{% endblock listboard_table_columns %}
