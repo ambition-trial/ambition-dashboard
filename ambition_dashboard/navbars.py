@@ -62,4 +62,13 @@ navbar.append_item(
         url_name=settings.DASHBOARD_URL_NAMES['tmg_summary_listboard_url'],
         no_url_namespace=no_url_namespace))
 
+navbar.append_item(
+    NavbarItem(
+        name='subject_review',
+        label='Subject Review',
+        # fa_icon='fas fa-chalkboard-teacher',
+        permission_codename='nav_tmg_section',
+        url_name=settings.DASHBOARD_URL_NAMES['subject_review_listboard_url'],
+        no_url_namespace=no_url_namespace))
+
 site_navbars.register(navbar)
