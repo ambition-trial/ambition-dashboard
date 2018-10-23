@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'edc_navbar.apps.AppConfig',
     'edc_action_item.apps.AppConfig',
     'edc_dashboard.apps.AppConfig',
+    'edc_notification.apps.AppConfig',
     'edc_lab.apps.AppConfig',
     'edc_lab_dashboard.apps.AppConfig',
     'edc_subject_dashboard.apps.AppConfig',
