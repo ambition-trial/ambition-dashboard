@@ -3,3 +3,4 @@ model-mommy
 edc-registration
 edc-selenium
 edc-offstudy
+edc-notification
