@@ -37,5 +37,5 @@ class DashboardView(
                 and TMG not in group_names
                 and AUDITOR not in group_names):
             self.message_user(mark_safe(
-                f'Wait!. Another user has switch the current appointment! '
+                f'Wait!. Another user has switched the current appointment! '
                 f'<BR>Appointment {self.appointment} is no longer "in progress".'))
