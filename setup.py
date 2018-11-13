@@ -28,6 +28,7 @@ setup(
     install_requires=[
         'ambition-auth',
         'ambition-ae',
+        'ambition-lists',
         'ambition-prn',
         'ambition-rando',
         'ambition_subject',
