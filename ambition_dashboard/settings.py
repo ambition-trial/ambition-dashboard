@@ -80,7 +80,6 @@ INSTALLED_APPS = [
     "ambition_dashboard.apps.EdcMetadataAppConfig",
     "ambition_dashboard.apps.EdcVisitTrackingAppConfig",
     "ambition_dashboard.apps.AppConfig",
-    # 'ambition_edc.apps.AppConfig',
 ]
 
 MIDDLEWARE = [
