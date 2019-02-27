@@ -15,27 +15,35 @@ from ....model_wrappers import SubjectLocatorModelWrapper
 
 
 class DashboardView(
-        EdcBaseViewMixin, SubjectDashboardViewMixin,
-        RandomizationListViewMixin,
-        NavbarViewMixin, BaseDashboardView):
+    EdcBaseViewMixin,
+    SubjectDashboardViewMixin,
+    RandomizationListViewMixin,
+    NavbarViewMixin,
+    BaseDashboardView,
+):
 
-    dashboard_url = 'subject_dashboard_url'
-    dashboard_template = 'subject_dashboard_template'
-    appointment_model = 'edc_appointment.appointment'
+    dashboard_url = "subject_dashboard_url"
+    dashboard_template = "subject_dashboard_template"
+    appointment_model = "edc_appointment.appointment"
     appointment_model_wrapper_cls = AppointmentModelWrapper
-    consent_model = 'ambition_subject.subjectconsent'
+    consent_model = "ambition_subject.subjectconsent"
     consent_model_wrapper_cls = SubjectConsentModelWrapper
-    navbar_name = 'ambition_dashboard'
-    navbar_selected_item = 'consented_subject'
-    subject_locator_model = 'edc_locator.subjectlocator'
+    navbar_name = "ambition_dashboard"
+    navbar_selected_item = "consented_subject"
+    subject_locator_model = "edc_locator.subjectlocator"
     subject_locator_model_wrapper_cls = SubjectLocatorModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
     def message_if_appointment_in_progress(self):
         group_names = [obj.name for obj in self.request.user.groups.all()]
-        if (self.appointment.appt_status != IN_PROGRESS_APPT
-                and TMG not in group_names
-                and AUDITOR not in group_names):
-            self.message_user(mark_safe(
-                f'Wait!. Another user has switched the current appointment! '
-                f'<BR>Appointment {self.appointment} is no longer "in progress".'))
+        if (
+            self.appointment.appt_status != IN_PROGRESS_APPT
+            and TMG not in group_names
+            and AUDITOR not in group_names
+        ):
+            self.message_user(
+                mark_safe(
+                    f"Wait!. Another user has switched the current appointment! "
+                    f'<BR>Appointment {self.appointment} is no longer "in progress".'
+                )
+            )

@@ -5,6 +5,6 @@ from ..model_wrappers import SubjectVisitModelWrapper
 
 class SubjectReviewListboardView(Base):
 
-    listboard_model = 'ambition_subject.subjectvisit'
+    listboard_model = "ambition_subject.subjectvisit"
     model_wrapper_cls = SubjectVisitModelWrapper
-    navbar_name = 'ambition_dashboard'
+    navbar_name = "ambition_dashboard"

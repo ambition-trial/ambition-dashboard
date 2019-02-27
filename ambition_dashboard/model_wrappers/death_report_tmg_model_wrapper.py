@@ -3,9 +3,9 @@ from edc_model_wrapper import ModelWrapper
 
 
 class DeathReportTmgModelWrapper(ModelWrapper):
-    next_url_name = settings.DASHBOARD_URL_NAMES.get('tmg_death_listboard_url')
-    model = 'ambition_prn.deathreporttmg'
-    next_url_attrs = ['subject_identifier']
+    next_url_name = settings.DASHBOARD_URL_NAMES.get("tmg_death_listboard_url")
+    model = "ambition_prn.deathreporttmg"
+    next_url_attrs = ["subject_identifier"]
 
     @property
     def subject_identifier(self):

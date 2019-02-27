@@ -9,9 +9,9 @@ from .death_report_tmg_model_wrapper import DeathReportTmgModelWrapper
 
 
 class DeathReportModelWrapper(ModelWrapper):
-    next_url_name = settings.DASHBOARD_URL_NAMES.get('tmg_death_listboard_url')
-    model = 'ambition_prn.deathreport'
-    next_url_attrs = ['subject_identifier']
+    next_url_name = settings.DASHBOARD_URL_NAMES.get("tmg_death_listboard_url")
+    model = "ambition_prn.deathreport"
+    next_url_attrs = ["subject_identifier"]
 
     @property
     def pk(self):
@@ -25,19 +25,27 @@ class DeathReportModelWrapper(ModelWrapper):
     def tmg_death_reports(self):
         objs = []
         for action_item in ActionItem.objects.filter(
-                related_action_item=self.object.action_item,
-                action_type__name=DEATH_REPORT_TMG_ACTION):
+            related_action_item=self.object.action_item,
+            action_type__name=DEATH_REPORT_TMG_ACTION,
+        ):
             try:
-                objs.append(DeathReportTmgModelWrapper(
-                    model_obj=DeathReportTmg.objects.get(
-                        action_identifier=action_item.action_identifier)))
+                objs.append(
+                    DeathReportTmgModelWrapper(
+                        model_obj=DeathReportTmg.objects.get(
+                            action_identifier=action_item.action_identifier
+                        )
+                    )
+                )
             except ObjectDoesNotExist:
-                objs.append(DeathReportTmgModelWrapper(
-                    model_obj=DeathReportTmg(
-                        death_report=self.object,
-                        subject_identifier=self.object.subject_identifier,
-                        action_identifier=action_item.action_identifier,
-                        parent_action_item=action_item.parent_action_item,
-                        related_action_item=action_item.related_action_item)
-                ))
+                objs.append(
+                    DeathReportTmgModelWrapper(
+                        model_obj=DeathReportTmg(
+                            death_report=self.object,
+                            subject_identifier=self.object.subject_identifier,
+                            action_identifier=action_item.action_identifier,
+                            parent_action_item=action_item.parent_action_item,
+                            related_action_item=action_item.related_action_item,
+                        )
+                    )
+                )
         return objs

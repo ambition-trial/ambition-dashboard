@@ -1,86 +1,67 @@
+from ambition_rando.tests import AmbitionTestCaseMixin
+from ambition_screening.models import SubjectScreening
+from ambition_subject.models.subject_consent import SubjectConsent
+from ambition_subject.models.subject_visit import SubjectVisit
 from django.test import TestCase, tag
-from edc_base.utils import get_utcnow
-from edc_lab.models.panel import Panel
+from edc_appointment.models import Appointment
 from edc_model_wrapper.tests import ModelWrapperTestHelper
 
 from ..model_wrappers import AppointmentModelWrapper
 from ..model_wrappers import SubjectConsentModelWrapper
 from ..model_wrappers import SubjectLocatorModelWrapper
-from ..model_wrappers import SubjectVisitModelWrapper
 from ..model_wrappers import SubjectScreeningModelWrapper
-from .models import SubjectScreening, Appointment
+from ..model_wrappers import SubjectVisitModelWrapper
 
 
 class SubjectModelWrapperTestHelper(ModelWrapperTestHelper):
-    dashboard_url = '/subject_dashboard/'
+    dashboard_url = "/subject_dashboard/"
 
 
 class ScreeningModelWrapperTestHelper(ModelWrapperTestHelper):
-    dashboard_url = '/screening_listboard/'
+    dashboard_url = "/screening_listboard/"
 
 
-class TestModelWrappers(TestCase):
+class TestModelWrappers(AmbitionTestCaseMixin, TestCase):
 
     model_wrapper_helper_cls = SubjectModelWrapperTestHelper
 
-    @classmethod
-    def setUpClass(cls):
-        Panel.objects.create(name='vl')
-        return super().setUpClass()
-
-    @classmethod
-    def tearDownClass(cls):
-        Panel.objects.all().delete()
-        super().tearDownClass()
+    def setUp(self):
+        self.subject_identifier = self.create_subject()
 
     def test_subject_screening(self):
+        subject_screening = SubjectScreening.objects.all()[0]
         helper = ScreeningModelWrapperTestHelper(
-            model_wrapper=SubjectScreeningModelWrapper,
-            app_label='ambition_dashboard',
-            screening_identifier='ABCDEFGH')
+            model_wrapper=SubjectScreeningModelWrapper, model_obj=subject_screening
+        )
         helper.test(self)
 
     def test_subject_consent(self):
-        SubjectScreening.objects.create(
-            screening_identifier='1234')
+        subject_consent = SubjectConsent.objects.all()[0]
         helper = self.model_wrapper_helper_cls(
-            model_wrapper=SubjectConsentModelWrapper,
-            app_label='ambition_dashboard',
-            subject_identifier='092-12345')
+            model_wrapper=SubjectConsentModelWrapper, model_obj=subject_consent
+        )
         helper.test(self)
 
     def test_subject_locator(self):
         helper = self.model_wrapper_helper_cls(
             model_wrapper=SubjectLocatorModelWrapper,
-            app_label='ambition_dashboard',
-            subject_identifier='092-12345')
+            subject_identifier=self.subject_identifier,
+        )
         helper.test(self)
 
     def test_appointment(self):
-
-        class MySubjectVisitModelWrapper(SubjectVisitModelWrapper):
-            model = 'ambition_dashboard.subjectvisit'
-
-        class MyAppointmentModelWrapper(AppointmentModelWrapper):
-            visit_model_wrapper_cls = MySubjectVisitModelWrapper
-
-        # note: AppointmentModelWrapper has no class attr model
+        appointment = Appointment.objects.all()[0]
         helper = self.model_wrapper_helper_cls(
-            model_wrapper=MyAppointmentModelWrapper,
-            app_label='edc_appointment',
-            model='edc_appointment.appointment',
-            appt_datetime=get_utcnow(),
-            subject_identifier='092-12345')
+            model_wrapper=AppointmentModelWrapper, model_obj=appointment
+        )
         helper.test(self)
 
     def test_subject_visit(self):
-        appointment = Appointment.objects.create(
-            appt_datetime=get_utcnow(),
-            subject_identifier='092-12345',)
+        appointment = Appointment.objects.all()[0]
+        subject_visit = SubjectVisit.objects.create(
+            appointment=appointment, reason="scheduled"
+        )
         helper = self.model_wrapper_helper_cls(
-            model_wrapper=SubjectVisitModelWrapper,
-            app_label='ambition_dashboard',
-            subject_identifier='092-12345',
-            appointment=appointment,
-            reason='scheduled')
+            model_wrapper=SubjectVisitModelWrapper, model_obj=subject_visit
+        )
         helper.test(self)

@@ -1,7 +1,9 @@
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from edc_action_item.model_wrappers import ActionItemModelWrapper as BaseActionItemModelWrapper
+from edc_action_item.model_wrappers import (
+    ActionItemModelWrapper as BaseActionItemModelWrapper,
+)
 
 from .death_report_model_wrapper import DeathReportModelWrapper
 from .death_report_tmg_model_wrapper import DeathReportTmgModelWrapper
@@ -10,10 +12,10 @@ from edc_constants.constants import NEW
 
 
 class ActionItemModelWrapper(BaseActionItemModelWrapper):
-    next_url_name = settings.DASHBOARD_URL_NAMES.get('tmg_ae_listboard_url')
+    next_url_name = settings.DASHBOARD_URL_NAMES.get("tmg_ae_listboard_url")
 
-    death_report_model = 'ambition_prn.deathreport'
-    death_report_tmg_model = 'ambition_prn.deathreporttmg'
+    death_report_model = "ambition_prn.deathreport"
+    death_report_tmg_model = "ambition_prn.deathreporttmg"
 
     def __init__(self, model_obj=None, **kwargs):
         self._death_report = None
@@ -31,7 +33,9 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
             try:
                 self._death_report = DeathReportModelWrapper(
                     model_obj=model_cls.objects.get(
-                        subject_identifier=self.subject_identifier))
+                        subject_identifier=self.subject_identifier
+                    )
+                )
             except ObjectDoesNotExist:
                 self._death_report = None
         return self._death_report
@@ -41,7 +45,9 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
             wrapped = DeathReportTmgModelWrapper(
                 model_obj=DeathReportTmg.objects.get(
                     action_identifier=self.object.action_identifier,
-                    death_report=self.death_report.object))
+                    death_report=self.death_report.object,
+                )
+            )
         else:
             wrapped = DeathReportTmgModelWrapper(
                 model_obj=DeathReportTmg(
@@ -49,7 +55,9 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
                     subject_identifier=self.object.subject_identifier,
                     action_identifier=self.object.action_identifier,
                     parent_action_item=self.object.parent_action_item,
-                    related_action_item=self.object.related_action_item))
+                    related_action_item=self.object.related_action_item,
+                )
+            )
         return wrapped
 
     @property
@@ -66,7 +74,9 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
                 else:
                     model_obj = DeathReportTmg.objects.get(
                         action_identifier=self.object.action_identifier,
-                        death_report=self.death_report.object)
+                        death_report=self.death_report.object,
+                    )
                     self._tmg_death_report = self.get_wrapped_tmg_death_report(
-                        model_obj)
+                        model_obj
+                    )
         return self._tmg_death_report
