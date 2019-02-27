@@ -1,4 +1,4 @@
-|pypi| |travis| |coverage|
+|pypi| |travis| |codecov| |downloads|
 
 ambition-dashboard
 ------------------
@@ -11,5 +11,8 @@ Dashboard classes for Ambition project
 .. |travis| image:: https://travis-ci.com/ambition-trial/ambition-dashboard.svg?branch=develop
     :target: https://travis-ci.com/ambition-trial/ambition-dashboard
     
-.. |coverage| image:: https://coveralls.io/repos/github/ambition-trial/ambition-dashboard/badge.svg?branch=develop
-    :target: https://coveralls.io/github/ambition-trial/ambition-dashboard?branch=develop
+.. |codecov| image:: https://codecov.io/gh/ambition-trial/ambition-dashboard/branch/develop/graph/badge.svg
+  :target: https://codecov.io/gh/ambition-trial/ambition-dashboard
+
+.. |downloads| image:: https://pepy.tech/badge/ambition-dashboard
+   :target: https://pepy.tech/project/ambition-dashboard

@@ -1,6 +1,4 @@
 [run]
-omit =
-    */wsgi.py
-    setup.py
-    manage.py
-    */migrations/*
+include = ambition_dashboard/*
+omit = ambition_dashboard/tests/*,ambition_dashboard/migrations/*
+branch = 1

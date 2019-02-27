@@ -3,29 +3,20 @@ from edc_dashboard.listboard_filter import ListboardFilter, ListboardViewFilters
 
 class ListboardViewFilters(ListboardViewFilters):
 
-    all = ListboardFilter(
-        name='all',
-        label='All',
-        lookup={})
+    all = ListboardFilter(name="all", label="All", lookup={})
 
-    eligible = ListboardFilter(
-        label='Eligible',
-        position=10,
-        lookup={'eligible': True})
+    eligible = ListboardFilter(label="Eligible", position=10, lookup={"eligible": True})
 
     not_eligible = ListboardFilter(
-        label='Not Eligible',
-        position=11,
-        lookup={'eligible': False})
+        label="Not Eligible", position=11, lookup={"eligible": False}
+    )
 
     consented = ListboardFilter(
-        label='Consented',
-        position=20,
-        lookup={'eligible': True,
-                'consented': True})
+        label="Consented", position=20, lookup={"eligible": True, "consented": True}
+    )
 
     not_consented = ListboardFilter(
-        label='Not consented',
+        label="Not consented",
         position=21,
-        lookup={'eligible': True,
-                'consented': False})
+        lookup={"eligible": True, "consented": False},
+    )

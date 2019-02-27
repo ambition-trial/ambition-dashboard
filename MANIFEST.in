@@ -1,3 +1,6 @@
-include AUTHORS CHANGES README LICENSE VERSION
-recursive-include ambition_dashboard/templates *
-recursive-include ambition_dashboard/static/label_templates *
+include AUTHORS CHANGES LICENSE VERSION
+include MANIFEST.in
+include *.rst
+include *.txt
+recursive-include ambition_ae/templates *
+recursive-include ambition_ae/static *

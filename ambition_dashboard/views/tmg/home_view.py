@@ -6,6 +6,8 @@ from edc_navbar import NavbarViewMixin
 
 class HomeView(EdcBaseViewMixin, NavbarViewMixin, TemplateView):
 
-    template_name = f'ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/tmg/home.html'
-    navbar_name = 'ambition_dashboard'
-    navbar_selected_item = 'tmg_home'
+    template_name = (
+        f"ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/tmg/home.html"
+    )
+    navbar_name = "ambition_dashboard"
+    navbar_selected_item = "tmg_home"

@@ -12,46 +12,54 @@ from edc_navbar import NavbarViewMixin
 from ...model_wrappers import ActionItemModelWrapper
 
 
-class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
-                           ListboardFilterViewMixin, SearchFormViewMixin,
-                           BaseListboardView):
+class SummaryListboardView(
+    NavbarViewMixin,
+    EdcBaseViewMixin,
+    ListboardFilterViewMixin,
+    SearchFormViewMixin,
+    BaseListboardView,
+):
 
-    ae_tmg_model = 'ambition_ae.aetmg'
+    ae_tmg_model = "ambition_ae.aetmg"
 
-    listboard_template = 'tmg_summary_listboard_template'
-    listboard_url = 'tmg_summary_listboard_url'
-    listboard_panel_style = 'warning'
+    listboard_template = "tmg_summary_listboard_template"
+    listboard_url = "tmg_summary_listboard_url"
+    listboard_panel_style = "warning"
     listboard_fa_icon = "fa-chalkboard-teacher"
-    listboard_model = 'edc_action_item.actionitem'
-    listboard_panel_title = 'TMG Summary'
-    listboard_view_permission_codename = 'edc_dashboard.view_tmg_listboard'
+    listboard_model = "edc_action_item.actionitem"
+    listboard_panel_title = "TMG Summary"
+    listboard_view_permission_codename = "edc_dashboard.view_tmg_listboard"
 
     model_wrapper_cls = ActionItemModelWrapper
-    navbar_name = 'ambition_dashboard'
-    navbar_selected_item = 'tmg_summary'
-    ordering = '-report_datetime'
+    navbar_name = "ambition_dashboard"
+    navbar_selected_item = "tmg_summary"
+    ordering = "-report_datetime"
     paginate_by = 25
-    search_form_url = 'tmg_summary_listboard_url'
-    action_type_names = [AE_TMG_ACTION,
-                         DEATH_REPORT_TMG_ACTION,
-                         DEATH_REPORT_ACTION,
-                         AE_FOLLOWUP_ACTION]
-    search_fields = ['subject_identifier',
-                     'action_identifier',
-                     'parent_action_item__action_identifier',
-                     'related_action_item__action_identifier',
-                     'user_created',
-                     'user_modified']
+    search_form_url = "tmg_summary_listboard_url"
+    action_type_names = [
+        AE_TMG_ACTION,
+        DEATH_REPORT_TMG_ACTION,
+        DEATH_REPORT_ACTION,
+        AE_FOLLOWUP_ACTION,
+    ]
+    search_fields = [
+        "subject_identifier",
+        "action_identifier",
+        "parent_action_item__action_identifier",
+        "related_action_item__action_identifier",
+        "user_created",
+        "user_modified",
+    ]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['AE_TMG_ACTION'] = AE_TMG_ACTION
-        context['utc_date'] = arrow.now().date()
+        context["AE_TMG_ACTION"] = AE_TMG_ACTION
+        context["utc_date"] = arrow.now().date()
         return context
 
     def get_queryset_filter_options(self, request, *args, **kwargs):
         options = super().get_queryset_filter_options(request, *args, **kwargs)
-        options.update({'action_type__name__in': self.action_type_names})
+        options.update({"action_type__name__in": self.action_type_names})
         return options
 
     def update_wrapped_instance(self, model_wrapper):
@@ -63,16 +71,30 @@ class SummaryListboardView(NavbarViewMixin, EdcBaseViewMixin,
         except ObjectDoesNotExist:
             pass
         else:
-            if (model_wrapper.reference_obj
-                    and model_wrapper.reference_obj._meta.label_lower == self.ae_tmg_model):
+            if (
+                model_wrapper.reference_obj
+                and model_wrapper.reference_obj._meta.label_lower == self.ae_tmg_model
+            ):
                 model_wrapper.has_reference_obj_permissions = (
-                    model_wrapper.reference_obj.user_created == self.request.user.username)
-            if (model_wrapper.parent_reference_obj
-                    and model_wrapper.parent_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
+                    model_wrapper.reference_obj.user_created
+                    == self.request.user.username
+                )
+            if (
+                model_wrapper.parent_reference_obj
+                and model_wrapper.parent_reference_obj._meta.label_lower
+                == self.ae_tmg_model
+            ):  # noqa
                 model_wrapper.has_parent_reference_obj_permissions = (
-                    model_wrapper.parent_reference_obj.user_created == self.request.user.username)  # noqa
-            if (model_wrapper.related_reference_obj
-                    and model_wrapper.related_reference_obj._meta.label_lower == self.ae_tmg_model):  # noqa
+                    model_wrapper.parent_reference_obj.user_created
+                    == self.request.user.username
+                )  # noqa
+            if (
+                model_wrapper.related_reference_obj
+                and model_wrapper.related_reference_obj._meta.label_lower
+                == self.ae_tmg_model
+            ):  # noqa
                 model_wrapper.has_related_reference_obj_permissions = (
-                    model_wrapper.related_reference_obj.user_created == self.request.user.username)  # noqa
+                    model_wrapper.related_reference_obj.user_created
+                    == self.request.user.username
+                )  # noqa
         return model_wrapper
