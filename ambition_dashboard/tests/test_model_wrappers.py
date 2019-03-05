@@ -2,7 +2,7 @@ from ambition_rando.tests import AmbitionTestCaseMixin
 from ambition_screening.models import SubjectScreening
 from ambition_subject.models.subject_consent import SubjectConsent
 from ambition_subject.models.subject_visit import SubjectVisit
-from django.test import TestCase, tag
+from django.test import TestCase, tag  # noqa
 from edc_appointment.models import Appointment
 from edc_model_wrapper.tests import ModelWrapperTestHelper
 
