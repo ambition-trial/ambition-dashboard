@@ -3,7 +3,7 @@ from ambition_dashboard.model_wrappers import AppointmentModelWrapper
 from ambition_rando.view_mixins import RandomizationListViewMixin
 from django.utils.safestring import mark_safe
 from edc_appointment.constants import IN_PROGRESS_APPT
-from edc_base.view_mixins import EdcBaseViewMixin
+from edc_dashboard.view_mixins import EdcViewMixin
 from edc_dashboard.views import DashboardView as BaseDashboardView
 from edc_navbar import NavbarViewMixin
 from edc_permissions.constants.group_names import AUDITOR
@@ -15,7 +15,7 @@ from ....model_wrappers import SubjectLocatorModelWrapper
 
 
 class DashboardView(
-    EdcBaseViewMixin,
+    EdcViewMixin,
     SubjectDashboardViewMixin,
     RandomizationListViewMixin,
     NavbarViewMixin,

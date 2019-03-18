@@ -4,7 +4,7 @@ from ambition_ae.action_items import AE_TMG_ACTION
 from ambition_auth import TMG
 from copy import copy
 from django.core.exceptions import ObjectDoesNotExist
-from edc_base.view_mixins import EdcBaseViewMixin
+from edc_dashboard.view_mixins import EdcViewMixin
 from edc_constants.constants import CLOSED, NEW, OPEN
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
@@ -15,7 +15,7 @@ from ...model_wrappers import ActionItemModelWrapper
 
 class AeListboardView(
     NavbarViewMixin,
-    EdcBaseViewMixin,
+    EdcViewMixin,
     ListboardFilterViewMixin,
     SearchFormViewMixin,
     BaseListboardView,

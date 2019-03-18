@@ -2,7 +2,7 @@ import re
 
 from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION
 from django.db.models import Q
-from edc_base.view_mixins import EdcBaseViewMixin
+from edc_dashboard.view_mixins import EdcViewMixin
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
@@ -12,7 +12,7 @@ from ...model_wrappers import ActionItemModelWrapper
 
 class DeathListboardView(
     NavbarViewMixin,
-    EdcBaseViewMixin,
+    EdcViewMixin,
     ListboardFilterViewMixin,
     SearchFormViewMixin,
     BaseListboardView,

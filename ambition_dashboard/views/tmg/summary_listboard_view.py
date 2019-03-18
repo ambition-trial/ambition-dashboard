@@ -4,7 +4,7 @@ from ambition_ae.action_items import AE_TMG_ACTION, AE_FOLLOWUP_ACTION
 from ambition_auth import TMG
 from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION, DEATH_REPORT_ACTION
 from django.core.exceptions import ObjectDoesNotExist
-from edc_base.view_mixins import EdcBaseViewMixin
+from edc_dashboard.view_mixins import EdcViewMixin
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
@@ -14,7 +14,7 @@ from ...model_wrappers import ActionItemModelWrapper
 
 class SummaryListboardView(
     NavbarViewMixin,
-    EdcBaseViewMixin,
+    EdcViewMixin,
     ListboardFilterViewMixin,
     SearchFormViewMixin,
     BaseListboardView,
