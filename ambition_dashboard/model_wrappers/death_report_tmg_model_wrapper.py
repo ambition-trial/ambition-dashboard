@@ -1,9 +1,8 @@
-from django.conf import settings
 from edc_model_wrapper import ModelWrapper
 
 
 class DeathReportTmgModelWrapper(ModelWrapper):
-    next_url_name = settings.DASHBOARD_URL_NAMES.get("tmg_death_listboard_url")
+    next_url_name = "tmg_death_listboard_url"
     model = "ambition_prn.deathreporttmg"
     next_url_attrs = ["subject_identifier"]
 

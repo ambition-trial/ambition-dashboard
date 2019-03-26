@@ -1,4 +1,4 @@
-from edc_subject_dashboard.views import SubjectReviewListboardView as Base
+from edc_review_dashboard.views import SubjectReviewListboardView as Base
 
 from ..model_wrappers import SubjectVisitModelWrapper
 

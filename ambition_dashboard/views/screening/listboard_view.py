@@ -29,6 +29,8 @@ class ListboardView(
     listboard_model = "ambition_screening.subjectscreening"
     listboard_view_permission_codename = "edc_dashboard.view_screening_listboard"
 
+    alternate_search_attr = "screening_identifier"
+
     model_wrapper_cls = SubjectScreeningModelWrapper
     navbar_name = "ambition_dashboard"
     navbar_selected_item = "screened_subject"

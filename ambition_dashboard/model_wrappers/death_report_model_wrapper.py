@@ -1,6 +1,5 @@
 from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION
 from ambition_prn.models import DeathReportTmg
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from edc_action_item.models import ActionItem
 from edc_model_wrapper import ModelWrapper
@@ -9,7 +8,7 @@ from .death_report_tmg_model_wrapper import DeathReportTmgModelWrapper
 
 
 class DeathReportModelWrapper(ModelWrapper):
-    next_url_name = settings.DASHBOARD_URL_NAMES.get("tmg_death_listboard_url")
+    next_url_name = "tmg_death_listboard_url"
     model = "ambition_prn.deathreport"
     next_url_attrs = ["subject_identifier"]
 
