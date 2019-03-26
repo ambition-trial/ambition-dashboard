@@ -1,6 +1,7 @@
 from django import template
 from django.conf import settings
 from edc_constants.constants import ABNORMAL
+from edc_dashboard.url_names import url_names
 
 register = template.Library()
 
@@ -61,7 +62,7 @@ def consent_button(context, model_wrapper):
     f"buttons/dashboard_button.html"
 )
 def dashboard_button(model_wrapper):
-    subject_dashboard_url = settings.DASHBOARD_URL_NAMES.get("subject_dashboard_url")
+    subject_dashboard_url = url_names.get("subject_dashboard_url")
     return dict(
         subject_dashboard_url=subject_dashboard_url,
         subject_identifier=model_wrapper.subject_identifier,

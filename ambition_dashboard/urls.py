@@ -19,6 +19,7 @@ app_name = "ambition_dashboard"
 
 subject_listboard_url_config = UrlConfig(
     url_name="subject_listboard_url",
+    namespace=app_name,
     view_class=SubjectListboardView,
     label="subject_listboard",
     identifier_label="subject_identifier",
@@ -26,6 +27,7 @@ subject_listboard_url_config = UrlConfig(
 )
 screening_listboard_url_config = UrlConfig(
     url_name="screening_listboard_url",
+    namespace=app_name,
     view_class=ScreeningListboardView,
     label="screening_listboard",
     identifier_label="screening_identifier",
@@ -33,6 +35,7 @@ screening_listboard_url_config = UrlConfig(
 )
 subject_dashboard_url_config = UrlConfig(
     url_name="subject_dashboard_url",
+    namespace=app_name,
     view_class=SubjectDashboardView,
     label="subject_dashboard",
     identifier_label="subject_identifier",
@@ -40,6 +43,7 @@ subject_dashboard_url_config = UrlConfig(
 )
 tmg_ae_listboard_url_config = UrlConfig(
     url_name="tmg_ae_listboard_url",
+    namespace=app_name,
     view_class=TmgAeListboardView,
     label="tmg_ae_listboard",
     identifier_label="subject_identifier",
@@ -47,6 +51,7 @@ tmg_ae_listboard_url_config = UrlConfig(
 )
 tmg_death_listboard_url_config = UrlConfig(
     url_name="tmg_death_listboard_url",
+    namespace=app_name,
     view_class=TmgDeathListboardView,
     label="tmg_death_listboard",
     identifier_label="subject_identifier",
@@ -54,13 +59,15 @@ tmg_death_listboard_url_config = UrlConfig(
 )
 tmg_summary_listboard_url_config = UrlConfig(
     url_name="tmg_summary_listboard_url",
+    namespace=app_name,
     view_class=TmgSummaryListboardView,
     label="tmg_summary_listboard",
     identifier_label="subject_identifier",
     identifier_pattern=subject_identifier,
 )
-subject_review_listboard_url_config = UrlConfig(
+review_listboard_url_config = UrlConfig(
     url_name="subject_review_listboard_url",
+    namespace=app_name,
     view_class=SubjectReviewListboardView,
     label="subject_review_listboard",
     identifier_label="subject_identifier",
@@ -75,8 +82,7 @@ urlpatterns += subject_dashboard_url_config.dashboard_urls
 urlpatterns += tmg_ae_listboard_url_config.listboard_urls
 urlpatterns += tmg_death_listboard_url_config.listboard_urls
 urlpatterns += tmg_summary_listboard_url_config.listboard_urls
-urlpatterns += subject_review_listboard_url_config.listboard_urls
-
+urlpatterns += review_listboard_url_config.review_listboard_urls
 
 if settings.APP_NAME == "ambition_dashboard":
 

@@ -1,4 +1,6 @@
-from edc_subject_dashboard import AppointmentModelWrapper as BaseAppointmentModelWrapper
+from edc_subject_model_wrappers import (
+    AppointmentModelWrapper as BaseAppointmentModelWrapper,
+)
 
 from .subject_visit_model_wrapper import SubjectVisitModelWrapper
 

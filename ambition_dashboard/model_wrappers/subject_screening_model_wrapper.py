@@ -1,5 +1,4 @@
 from django.apps import apps as django_apps
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from edc_consent import ConsentModelWrapperMixin
 from edc_model_wrapper import ModelWrapper
@@ -12,7 +11,7 @@ class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
     consent_model_wrapper_cls = SubjectConsentModelWrapper
     model = "ambition_screening.subjectscreening"
     next_url_attrs = ["screening_identifier"]
-    next_url_name = settings.DASHBOARD_URL_NAMES.get("screening_listboard_url")
+    next_url_name = "screening_listboard_url"
     querystring_attrs = ["gender"]
 
     @property

@@ -1,5 +1,6 @@
 from django.conf import settings
 from edc_navbar import NavbarItem, site_navbars, Navbar
+from edc_review_dashboard.navbars import navbar as review_navbar
 
 
 no_url_namespace = True if settings.APP_NAME == "ambition_dashboard" else False
@@ -13,7 +14,7 @@ navbar.append_item(
         label="screening",
         fa_icon="fas fa-user-plus",
         permission_codename="nav_screening_section",
-        url_name=settings.DASHBOARD_URL_NAMES["screening_listboard_url"],
+        url_name="screening_listboard_url",
         no_url_namespace=no_url_namespace,
     )
 )
@@ -25,7 +26,7 @@ navbar.append_item(
         label="subjects",
         fa_icon="far fa-user-circle",
         permission_codename="nav_subject_section",
-        url_name=settings.DASHBOARD_URL_NAMES["subject_listboard_url"],
+        url_name="subject_listboard_url",
         no_url_namespace=no_url_namespace,
     )
 )
@@ -47,7 +48,7 @@ navbar.append_item(
         label="AE Reports",
         # fa_icon='fas fa-chalkboard-teacher',
         permission_codename="nav_tmg_section",
-        url_name=settings.DASHBOARD_URL_NAMES["tmg_ae_listboard_url"],
+        url_name="tmg_ae_listboard_url",
         no_url_namespace=no_url_namespace,
     )
 )
@@ -58,7 +59,7 @@ navbar.append_item(
         label="Death Reports",
         # fa_icon='fas fa-chalkboard-teacher',
         permission_codename="nav_tmg_section",
-        url_name=settings.DASHBOARD_URL_NAMES["tmg_death_listboard_url"],
+        url_name="tmg_death_listboard_url",
         no_url_namespace=no_url_namespace,
     )
 )
@@ -69,20 +70,13 @@ navbar.append_item(
         label="Summary",
         # fa_icon='fas fa-chalkboard-teacher',
         permission_codename="nav_tmg_section",
-        url_name=settings.DASHBOARD_URL_NAMES["tmg_summary_listboard_url"],
+        url_name="tmg_summary_listboard_url",
         no_url_namespace=no_url_namespace,
     )
 )
 
-navbar.append_item(
-    NavbarItem(
-        name="subject_review",
-        label="Subject Review",
-        # fa_icon='fas fa-chalkboard-teacher',
-        permission_codename="nav_tmg_section",
-        url_name=settings.DASHBOARD_URL_NAMES["subject_review_listboard_url"],
-        no_url_namespace=no_url_namespace,
-    )
-)
+for item in review_navbar.items:
+    navbar.append_item(item)
+
 
 site_navbars.register(navbar)
