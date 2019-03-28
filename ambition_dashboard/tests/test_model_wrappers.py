@@ -5,12 +5,14 @@ from ambition_subject.models.subject_visit import SubjectVisit
 from django.test import TestCase, tag  # noqa
 from edc_appointment.models import Appointment
 from edc_model_wrapper.tests import ModelWrapperTestHelper
+from edc_subject_model_wrappers import (
+    AppointmentModelWrapper,
+    SubjectLocatorModelWrapper,
+    SubjectConsentModelWrapper,
+    SubjectVisitModelWrapper,
+)
 
-from ..model_wrappers import AppointmentModelWrapper
-from ..model_wrappers import SubjectConsentModelWrapper
-from ..model_wrappers import SubjectLocatorModelWrapper
 from ..model_wrappers import SubjectScreeningModelWrapper
-from ..model_wrappers import SubjectVisitModelWrapper
 
 
 class SubjectModelWrapperTestHelper(ModelWrapperTestHelper):
@@ -37,13 +39,13 @@ class TestModelWrappers(AmbitionTestCaseMixin, TestCase):
 
     def test_subject_consent(self):
         subject_consent = SubjectConsent.objects.all()[0]
-        helper = self.model_wrapper_helper_cls(
+        helper = ModelWrapperTestHelper(
             model_wrapper=SubjectConsentModelWrapper, model_obj=subject_consent
         )
         helper.test(self)
 
     def test_subject_locator(self):
-        helper = self.model_wrapper_helper_cls(
+        helper = ModelWrapperTestHelper(
             model_wrapper=SubjectLocatorModelWrapper,
             subject_identifier=self.subject_identifier,
         )
@@ -51,7 +53,7 @@ class TestModelWrappers(AmbitionTestCaseMixin, TestCase):
 
     def test_appointment(self):
         appointment = Appointment.objects.all()[0]
-        helper = self.model_wrapper_helper_cls(
+        helper = ModelWrapperTestHelper(
             model_wrapper=AppointmentModelWrapper, model_obj=appointment
         )
         helper.test(self)
@@ -61,7 +63,7 @@ class TestModelWrappers(AmbitionTestCaseMixin, TestCase):
         subject_visit = SubjectVisit.objects.create(
             appointment=appointment, reason="scheduled"
         )
-        helper = self.model_wrapper_helper_cls(
+        helper = ModelWrapperTestHelper(
             model_wrapper=SubjectVisitModelWrapper, model_obj=subject_visit
         )
         helper.test(self)

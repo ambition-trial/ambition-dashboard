@@ -2,8 +2,7 @@ from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist
 from edc_consent import ConsentModelWrapperMixin
 from edc_model_wrapper import ModelWrapper
-
-from .subject_consent_model_wrapper import SubjectConsentModelWrapper
+from edc_subject_model_wrappers import SubjectConsentModelWrapper
 
 
 class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
