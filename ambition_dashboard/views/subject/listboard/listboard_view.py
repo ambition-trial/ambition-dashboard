@@ -5,8 +5,7 @@ from edc_dashboard.view_mixins import EdcViewMixin
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView
 from edc_navbar import NavbarViewMixin
-
-from ....model_wrappers import SubjectConsentModelWrapper
+from edc_subject_model_wrappers import SubjectConsentModelWrapper
 
 
 class ListboardView(

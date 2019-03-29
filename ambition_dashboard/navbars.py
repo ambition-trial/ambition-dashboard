@@ -3,7 +3,7 @@ from edc_navbar import NavbarItem, site_navbars, Navbar
 from edc_review_dashboard.navbars import navbar as review_navbar
 
 
-no_url_namespace = True if settings.APP_NAME == "ambition_dashboard" else False
+no_url_namespace = False  # True if settings.APP_NAME == "ambition_dashboard" else False
 
 navbar = Navbar(name="ambition_dashboard")
 

@@ -193,7 +193,7 @@ DASHBOARD_BASE_TEMPLATES = {
     "subject_review_listboard_template": "edc_subject_dashboard/subject_review_listboard.html",
 }
 
-LAB_DASHBOARD_REQUISITION_MODEL = "ambition_subject.subjectrequisition"
+SUBJECT_REQUISITION_MODEL = "ambition_subject.subjectrequisition"
 
 EDC_BOOTSTRAP = 3
 EMAIL_CONTACTS = {
