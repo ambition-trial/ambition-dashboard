@@ -14,7 +14,6 @@ from edc_locator.admin_site import edc_locator_admin
 from edc_reference.admin_site import edc_reference_admin
 
 from .admin import ambition_test_admin
-from edc_utils.show_urls import show_urls
 
 urlpatterns = [
     path("accounts/", include("edc_auth.urls")),
@@ -30,7 +29,8 @@ urlpatterns = [
     path("admin/", ambition_screening_admin.urls),
     path("admin/", edc_action_item_admin.urls),
     path("admin/", admin.site.urls),
-    path("administration/", AdministrationView.as_view(), name="administration_url"),
+    path("administration/", AdministrationView.as_view(),
+         name="administration_url"),
     path("ambition_ae/", include("ambition_ae.urls")),
     path("ambition_prn/", include("ambition_prn.urls")),
     path("ambition_screening/", include("ambition_screening.urls")),

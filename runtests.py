@@ -77,16 +77,6 @@ DEFAULT_SETTINGS = DefaultTestSettings(
     use_test_urls=True,
 ).settings
 
-#     DASHBOARD_BASE_TEMPLATES={
-#         'listboard_base_template': 'ambition/base.html',
-#         'dashboard_base_template': 'ambition/base.html',
-#         'screening_listboard_template': 'ambition_dashboard/screening/listboard.html',
-#         'subject_listboard_template': 'ambition_dashboard/subject/listboard.html',
-#         'subject_dashboard_template': 'ambition_dashboard/subject/dashboard.html',
-#     },
-#
-#     SUBJECT_REQUISITION_MODEL='ambition_dashboard.subjectrequisition',
-
 
 def main():
     if not settings.configured:
