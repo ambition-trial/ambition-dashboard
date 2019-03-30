@@ -52,6 +52,7 @@ DEFAULT_SETTINGS = DefaultTestSettings(
         "edc_pharmacy_dashboard.apps.AppConfig",
         "edc_reference.apps.AppConfig",
         "edc_registration.apps.AppConfig",
+        "edc_review_dashboard.apps.AppConfig",
         "edc_subject_dashboard.apps.AppConfig",
         "edc_timepoint.apps.AppConfig",
         "edc_visit_schedule.apps.AppConfig",
