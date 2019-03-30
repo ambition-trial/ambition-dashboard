@@ -46,6 +46,7 @@ setup(
         'edc-lab-dashboard',
         'edc-model-wrapper',
         'edc-navbar',
+        'edc_review_dashboard',
         'edc-subject-dashboard',
     ],
     classifiers=[

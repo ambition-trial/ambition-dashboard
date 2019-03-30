@@ -1,3 +1,4 @@
+from ambition_dashboard.model_wrappers import SubjectScreeningModelWrapper
 from ambition_rando.tests import AmbitionTestCaseMixin
 from ambition_screening.models import SubjectScreening
 from ambition_subject.models.subject_consent import SubjectConsent
@@ -11,8 +12,6 @@ from edc_subject_model_wrappers import (
     SubjectConsentModelWrapper,
     SubjectVisitModelWrapper,
 )
-
-from ..model_wrappers import SubjectScreeningModelWrapper
 
 
 class SubjectModelWrapperTestHelper(ModelWrapperTestHelper):
