@@ -32,9 +32,9 @@ setup(
     zip_safe=False,
     keywords='django ambition dashboard',
     install_requires=[
-        'ambition-auth',
         'ambition-ae',
         'ambition-lists',
+        'ambition-permissions',
         'ambition-prn',
         'ambition-rando',
         'ambition_subject',
@@ -46,8 +46,8 @@ setup(
         'edc-lab-dashboard',
         'edc-model-wrapper',
         'edc-navbar',
-        'edc_review_dashboard',
         'edc-subject-dashboard',
+        'edc_review_dashboard',
     ],
     classifiers=[
         'Environment :: Web Environment',
