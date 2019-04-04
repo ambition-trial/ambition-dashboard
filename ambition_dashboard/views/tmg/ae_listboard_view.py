@@ -1,7 +1,7 @@
 import arrow
 
 from ambition_ae.action_items import AE_TMG_ACTION
-from ambition_auth import TMG
+from ambition_permissions import TMG
 from copy import copy
 from django.core.exceptions import ObjectDoesNotExist
 from edc_dashboard.view_mixins import EdcViewMixin
