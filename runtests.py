@@ -36,7 +36,6 @@ DEFAULT_SETTINGS = DefaultTestSettings(
         "django_revision.apps.AppConfig",
         "edc_action_item.apps.AppConfig",
         "edc_auth.apps.AppConfig",
-        "edc_base.apps.AppConfig",
         "edc_consent.apps.AppConfig",
         "edc_dashboard.apps.AppConfig",
         "edc_device.apps.AppConfig",
