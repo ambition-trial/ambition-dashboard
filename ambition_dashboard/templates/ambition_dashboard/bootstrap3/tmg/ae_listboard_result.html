@@ -142,7 +142,7 @@
 
             <a class="list-group-item list-group-item-default" role="button" 
             title="go to list of reported visits for this subject"
-            href="{% url subject_review_listboard_url %}?q={{ result.subject_identifier }}">
+            href="{% url subject_review_listboard_url|default:'subject_review_listboard_url_cannot_be_none' %}?q={{ result.subject_identifier }}">
             <i class="fas fa-user-circle fa-sm"></i> Subject Review  <i class="fas fa-share"></i></a>
 
 
