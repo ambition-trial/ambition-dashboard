@@ -39,7 +39,6 @@ setup(
         'ambition-rando',
         'ambition_subject',
         'edc-appointment',
-        'edc-base',
         'edc-consent',
         'edc-constants',
         'edc-dashboard',
