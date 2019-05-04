@@ -74,6 +74,17 @@ navbar.append_item(
     )
 )
 
+navbar.append_item(
+    NavbarItem(
+        name="ae_home",
+        label="AE Reports",
+        # fa_icon="fas fa-chalkboard-teacher",
+        codename="edc_navbar.nav_ae_section",
+        url_name="ambition_dashboard:ae_home_url",
+        no_url_namespace=no_url_namespace,
+    )
+)
+
 for item in review_navbar.items:
     navbar.append_item(item)
 

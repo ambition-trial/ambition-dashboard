@@ -2,6 +2,8 @@ from django.urls.conf import path
 
 from .patterns import subject_identifier, screening_identifier
 from .views import (
+    AeHomeView,
+    AeListboardView,
     SubjectListboardView,
     SubjectDashboardView,
     ScreeningListboardView,
@@ -14,7 +16,9 @@ from .views import (
 
 app_name = "ambition_dashboard"
 
-urlpatterns = [path("tmg/", TmgHomeView.as_view(), name="tmg_home_url")]
+urlpatterns = [
+    path("tmg/", TmgHomeView.as_view(), name="tmg_home_url"),
+    path("ae/", AeHomeView.as_view(), name="ae_home_url")]
 
 urlpatterns += SubjectListboardView.urls(
     namespace=app_name, label="subject_listboard", identifier_pattern=subject_identifier
@@ -27,6 +31,9 @@ urlpatterns += ScreeningListboardView.urls(
 )
 urlpatterns += SubjectDashboardView.urls(
     namespace=app_name, label="subject_dashboard", identifier_pattern=subject_identifier
+)
+urlpatterns += AeListboardView.urls(
+    namespace=app_name, label="ae_listboard", identifier_pattern=subject_identifier
 )
 urlpatterns += TmgAeListboardView.urls(
     namespace=app_name, label="tmg_ae_listboard", identifier_pattern=subject_identifier
