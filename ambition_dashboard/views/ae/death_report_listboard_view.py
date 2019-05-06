@@ -59,15 +59,16 @@ class DeathReportListboardView(
     def get(self, request, *args, **kwargs):
         if request.GET.get("pdf"):
             response = self.print_pdf_report(
-                action_identifier=self.request.GET.get("pdf"),
-                request=request)
+                action_identifier=self.request.GET.get("pdf"), request=request
+            )
             return response
         return super().get(request, *args, **kwargs)
 
     def print_pdf_report(self, action_identifier=None, request=None):
         try:
             death_report = DeathReportModel.objects.get(
-                action_identifier=action_identifier)
+                action_identifier=action_identifier
+            )
         except ObjectDoesNotExist:
             pass
         else:
@@ -75,7 +76,8 @@ class DeathReportListboardView(
                 death_report=death_report,
                 subject_identifier=death_report.subject_identifier,
                 user=self.request.user,
-                request=request)
+                request=request,
+            )
             return report.render()
         return None
 
@@ -89,6 +91,5 @@ class DeathReportListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update(
-                {"subject_identifier": kwargs.get("subject_identifier")})
+            options.update({"subject_identifier": kwargs.get("subject_identifier")})
         return options

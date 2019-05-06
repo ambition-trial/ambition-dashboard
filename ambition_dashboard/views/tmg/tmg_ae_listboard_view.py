@@ -58,10 +58,8 @@ class TmgAeListboardView(
         )
         results = copy(context["results"])
         context["results_new"] = [r for r in results if r.object.status == NEW]
-        context["results_open"] = [
-            r for r in results if r.object.status == OPEN]
-        context["results_closed"] = [
-            r for r in results if r.object.status == CLOSED]
+        context["results_open"] = [r for r in results if r.object.status == OPEN]
+        context["results_closed"] = [r for r in results if r.object.status == CLOSED]
         context["utc_date"] = arrow.now().date()
         return context
 
@@ -69,8 +67,7 @@ class TmgAeListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update(
-                {"subject_identifier": kwargs.get("subject_identifier")})
+            options.update({"subject_identifier": kwargs.get("subject_identifier")})
         return options
 
     def update_wrapped_instance(self, model_wrapper):

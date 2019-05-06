@@ -10,7 +10,9 @@ from edc_action_item.model_wrappers import (
     ActionItemModelWrapper as BaseActionItemModelWrapper,
 )
 from edc_dashboard.view_mixins import (
-    EdcViewMixin, ListboardFilterViewMixin, SearchFormViewMixin,
+    EdcViewMixin,
+    ListboardFilterViewMixin,
+    SearchFormViewMixin,
 )
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
@@ -31,7 +33,7 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
             try:
                 self._death_report = DeathReportModelWrapper(
                     model_obj=model_cls.objects.get(
-                        subject_identifier=self.subject_identifier,
+                        subject_identifier=self.subject_identifier
                     )
                 )
             except ObjectDoesNotExist:
@@ -75,15 +77,14 @@ class AeListboardView(
     def get(self, request, *args, **kwargs):
         if request.GET.get("pdf"):
             response = self.print_pdf_report(
-                action_identifier=self.request.GET.get("pdf"),
-                request=request)
+                action_identifier=self.request.GET.get("pdf"), request=request
+            )
             return response or super().get(request, *args, **kwargs)
         return super().get(request, *args, **kwargs)
 
     def print_pdf_report(self, action_identifier=None, request=None):
         try:
-            ae_initial = AeInitial.objects.get(
-                action_identifier=action_identifier)
+            ae_initial = AeInitial.objects.get(action_identifier=action_identifier)
         except ObjectDoesNotExist:
             pass
         else:
@@ -91,7 +92,8 @@ class AeListboardView(
                 ae_initial=ae_initial,
                 subject_identifier=ae_initial.subject_identifier,
                 user=self.request.user,
-                request=request)
+                request=request,
+            )
             return report.render()
         return None
 
@@ -105,8 +107,7 @@ class AeListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update(
-                {"subject_identifier": kwargs.get("subject_identifier")})
+            options.update({"subject_identifier": kwargs.get("subject_identifier")})
         return options
 
     def get_updated_queryset(self, queryset):

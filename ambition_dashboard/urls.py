@@ -19,7 +19,8 @@ app_name = "ambition_dashboard"
 
 urlpatterns = [
     path("tmg/", TmgHomeView.as_view(), name="tmg_home_url"),
-    path("ae/", AeHomeView.as_view(), name="ae_home_url")]
+    path("ae/", AeHomeView.as_view(), name="ae_home_url"),
+]
 
 urlpatterns += SubjectListboardView.urls(
     namespace=app_name, label="subject_listboard", identifier_pattern=subject_identifier
@@ -37,7 +38,9 @@ urlpatterns += AeListboardView.urls(
     namespace=app_name, label="ae_listboard", identifier_pattern=subject_identifier
 )
 urlpatterns += DeathReportListboardView.urls(
-    namespace=app_name, label="death_report_listboard", identifier_pattern=subject_identifier
+    namespace=app_name,
+    label="death_report_listboard",
+    identifier_pattern=subject_identifier,
 )
 urlpatterns += TmgAeListboardView.urls(
     namespace=app_name, label="tmg_ae_listboard", identifier_pattern=subject_identifier
