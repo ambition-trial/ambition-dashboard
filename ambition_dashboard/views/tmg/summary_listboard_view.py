@@ -12,7 +12,7 @@ from edc_dashboard.view_mixins import (
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 
-from ...model_wrappers import ActionItemModelWrapper
+from ...model_wrappers import TmgActionItemModelWrapper
 
 
 class SummaryListboardView(
@@ -33,9 +33,9 @@ class SummaryListboardView(
     listboard_panel_title = "TMG Summary"
     listboard_view_permission_codename = "edc_dashboard.view_tmg_listboard"
 
-    model_wrapper_cls = ActionItemModelWrapper
+    model_wrapper_cls = TmgActionItemModelWrapper
     navbar_name = "ambition_dashboard"
-    navbar_selected_item = "tmg_summary"
+    navbar_selected_item = "tmg_home"
     ordering = "-report_datetime"
     paginate_by = 25
     search_form_url = "tmg_summary_listboard_url"

@@ -10,10 +10,10 @@ from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMi
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 
-from ...model_wrappers import ActionItemModelWrapper
+from ...model_wrappers import TmgActionItemModelWrapper
 
 
-class AeListboardView(
+class TmgAeListboardView(
     NavbarViewMixin,
     EdcViewMixin,
     ListboardFilterViewMixin,
@@ -31,9 +31,9 @@ class AeListboardView(
     listboard_panel_title = "TMG AE Reports"
     listboard_view_permission_codename = "edc_dashboard.view_tmg_listboard"
 
-    model_wrapper_cls = ActionItemModelWrapper
+    model_wrapper_cls = TmgActionItemModelWrapper
     navbar_name = "ambition_dashboard"
-    navbar_selected_item = "tmg_ae"
+    navbar_selected_item = "tmg_home"
     ordering = "-report_datetime"
     paginate_by = 50
     search_form_url = "tmg_ae_listboard_url"

@@ -10,7 +10,7 @@ from .death_report_model_wrapper import DeathReportModelWrapper
 from .death_report_tmg_model_wrapper import DeathReportTmgModelWrapper
 
 
-class ActionItemModelWrapper(BaseActionItemModelWrapper):
+class TmgActionItemModelWrapper(BaseActionItemModelWrapper):
     next_url_name = "tmg_ae_listboard_url"
     death_report_model = "ambition_prn.deathreport"
     death_report_tmg_model = "ambition_prn.deathreporttmg"
