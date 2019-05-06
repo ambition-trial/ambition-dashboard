@@ -4,6 +4,7 @@ from .patterns import subject_identifier, screening_identifier
 from .views import (
     AeHomeView,
     AeListboardView,
+    DeathReportListboardView,
     SubjectListboardView,
     SubjectDashboardView,
     ScreeningListboardView,
@@ -34,6 +35,9 @@ urlpatterns += SubjectDashboardView.urls(
 )
 urlpatterns += AeListboardView.urls(
     namespace=app_name, label="ae_listboard", identifier_pattern=subject_identifier
+)
+urlpatterns += DeathReportListboardView.urls(
+    namespace=app_name, label="death_report_listboard", identifier_pattern=subject_identifier
 )
 urlpatterns += TmgAeListboardView.urls(
     namespace=app_name, label="tmg_ae_listboard", identifier_pattern=subject_identifier
