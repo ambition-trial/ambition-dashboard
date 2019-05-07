@@ -8,7 +8,9 @@ from .views import (
     SubjectListboardView,
     SubjectDashboardView,
     ScreeningListboardView,
-    TmgAeListboardView,
+    NewTmgAeListboardView,
+    OpenTmgAeListboardView,
+    ClosedTmgAeListboardView,
     TmgDeathListboardView,
     TmgHomeView,
     TmgSummaryListboardView,
@@ -34,17 +36,22 @@ urlpatterns += ScreeningListboardView.urls(
 urlpatterns += SubjectDashboardView.urls(
     namespace=app_name, label="subject_dashboard", identifier_pattern=subject_identifier
 )
-urlpatterns += AeListboardView.urls(
-    namespace=app_name, label="ae_listboard", identifier_pattern=subject_identifier
+
+
+# urlpatterns += TmgAeListboardView.urls(
+#     namespace=app_name, label="tmg_ae_listboard", identifier_pattern=subject_identifier
+# )
+urlpatterns += NewTmgAeListboardView.urls(
+    namespace=app_name, label="new_tmg_ae_listboard", identifier_pattern=subject_identifier
 )
-urlpatterns += DeathReportListboardView.urls(
-    namespace=app_name,
-    label="death_report_listboard",
-    identifier_pattern=subject_identifier,
+urlpatterns += OpenTmgAeListboardView.urls(
+    namespace=app_name, label="open_tmg_ae_listboard", identifier_pattern=subject_identifier
 )
-urlpatterns += TmgAeListboardView.urls(
-    namespace=app_name, label="tmg_ae_listboard", identifier_pattern=subject_identifier
+urlpatterns += ClosedTmgAeListboardView.urls(
+    namespace=app_name, label="closed_tmg_ae_listboard", identifier_pattern=subject_identifier
 )
+
+
 urlpatterns += TmgDeathListboardView.urls(
     namespace=app_name,
     label="tmg_death_listboard",
@@ -58,5 +65,13 @@ urlpatterns += TmgSummaryListboardView.urls(
 urlpatterns += SubjectReviewListboardView.urls(
     namespace=app_name,
     label="subject_review_listboard",
+    identifier_pattern=subject_identifier,
+)
+urlpatterns += AeListboardView.urls(
+    namespace=app_name, label="ae_listboard", identifier_pattern=subject_identifier
+)
+urlpatterns += DeathReportListboardView.urls(
+    namespace=app_name,
+    label="death_report_listboard",
     identifier_pattern=subject_identifier,
 )

@@ -2,10 +2,11 @@ import arrow
 
 from ambition_ae.action_items import AE_INITIAL_ACTION
 from ambition_ae.models import AeInitial
-from ambition_ae.reports import AEReport
 from ambition_dashboard.model_wrappers import DeathReportModelWrapper
+from ambition_reports.ae_report import AEReport
 from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import gettext as _
 from edc_action_item.model_wrappers import (
     ActionItemModelWrapper as BaseActionItemModelWrapper,
 )
@@ -16,6 +17,9 @@ from edc_dashboard.view_mixins import (
 )
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
+from django.utils.safestring import mark_safe
+
+from ...model_wrappers import AeInitialModelWrapper
 
 
 class ActionItemModelWrapper(BaseActionItemModelWrapper):
@@ -40,6 +44,10 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
                 self._death_report = None
         return self._death_report
 
+    @property
+    def ae_initial(self):
+        return AeInitialModelWrapper(model_obj=self.object.reference_obj)
+
 
 class AeListboardView(
     NavbarViewMixin,
@@ -51,11 +59,19 @@ class AeListboardView(
 
     listboard_template = "ae_listboard_template"
     listboard_url = "ae_listboard_url"
-    listboard_panel_style = "warning"
-    listboard_fa_icon = None
+    listboard_back_url = 'ambition_dashboard:ae_home_url'
+    listboard_panel_style = "info"
     listboard_model = "edc_action_item.actionitem"
-    listboard_panel_title = "AE Initial and Follow-up Reports"
+    listboard_panel_title = _(
+        "Adverse Events: AE Initial and Follow-up Reports")
     listboard_view_permission_codename = "edc_dashboard.view_ae_listboard"
+    listboard_instructions = mark_safe(
+        _("To find an initial adverse event report, search on the subject's "
+          "study identifier or AE reference number.")
+        + " <BR>"
+        + _("To download the printable report, click on the PDF button")
+        + " <i class='fas fa-file-pdf fa-fw'></i> "
+        + _("left of the subject's identifier."))
 
     model_wrapper_cls = ActionItemModelWrapper
     navbar_name = "ambition_dashboard"
@@ -84,7 +100,8 @@ class AeListboardView(
 
     def print_pdf_report(self, action_identifier=None, request=None):
         try:
-            ae_initial = AeInitial.objects.get(action_identifier=action_identifier)
+            ae_initial = AeInitial.objects.get(
+                action_identifier=action_identifier)
         except ObjectDoesNotExist:
             pass
         else:
@@ -107,7 +124,8 @@ class AeListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update({"subject_identifier": kwargs.get("subject_identifier")})
+            options.update(
+                {"subject_identifier": kwargs.get("subject_identifier")})
         return options
 
     def get_updated_queryset(self, queryset):

@@ -2,7 +2,6 @@ import arrow
 
 from ambition_ae.action_items import AE_TMG_ACTION
 from ambition_permissions import TMG
-from copy import copy
 from django.core.exceptions import ObjectDoesNotExist
 from edc_dashboard.view_mixins import EdcViewMixin
 from edc_constants.constants import CLOSED, NEW, OPEN
@@ -25,10 +24,10 @@ class TmgAeListboardView(
 
     listboard_template = "tmg_ae_listboard_template"
     listboard_url = "tmg_ae_listboard_url"
+    listboard_back_url = "ambition_dashboard:tmg_home_url"
     listboard_panel_style = "warning"
-    listboard_fa_icon = "fa-chalkboard-teacher"
     listboard_model = "edc_action_item.actionitem"
-    listboard_panel_title = "TMG AE Reports"
+    listboard_panel_title = "TMG: AE Reports"
     listboard_view_permission_codename = "edc_dashboard.view_tmg_listboard"
 
     model_wrapper_cls = TmgActionItemModelWrapper
@@ -51,15 +50,6 @@ class TmgAeListboardView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["AE_TMG_ACTION"] = AE_TMG_ACTION
-        context["status"] = (
-            NEW
-            if self.request.GET.get("status") not in [NEW, OPEN, CLOSED]
-            else self.request.GET.get("status")
-        )
-        results = copy(context["results"])
-        context["results_new"] = [r for r in results if r.object.status == NEW]
-        context["results_open"] = [r for r in results if r.object.status == OPEN]
-        context["results_closed"] = [r for r in results if r.object.status == CLOSED]
         context["utc_date"] = arrow.now().date()
         return context
 
@@ -67,7 +57,8 @@ class TmgAeListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update({"subject_identifier": kwargs.get("subject_identifier")})
+            options.update(
+                {"subject_identifier": kwargs.get("subject_identifier")})
         return options
 
     def update_wrapped_instance(self, model_wrapper):
@@ -106,3 +97,57 @@ class TmgAeListboardView(
                     == self.request.user.username
                 )  # noqa
         return model_wrapper
+
+
+class StatusTmgAeListboardView(TmgAeListboardView):
+
+    status = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["status"] = self.status
+        return context
+
+    def get_queryset_filter_options(self, request, *args, **kwargs):
+        options = super().get_queryset_filter_options(request, *args, **kwargs)
+        options.update({"status": self.status})
+        return options
+
+
+class NewTmgActionItemModelWrapper(TmgActionItemModelWrapper):
+    next_url_name = "new_tmg_ae_listboard_url"
+
+
+class OpenTmgActionItemModelWrapper(TmgActionItemModelWrapper):
+    next_url_name = "open_tmg_ae_listboard_url"
+
+
+class ClosedTmgActionItemModelWrapper(TmgActionItemModelWrapper):
+    next_url_name = "closed_tmg_ae_listboard_url"
+
+
+class NewTmgAeListboardView(StatusTmgAeListboardView):
+
+    listboard_url = "new_tmg_ae_listboard_url"
+    search_form_url = "new_tmg_ae_listboard_url"
+    status = NEW
+    listboard_panel_title = "TMG: New AE Reports"
+    model_wrapper_cls = NewTmgActionItemModelWrapper
+
+
+class OpenTmgAeListboardView(StatusTmgAeListboardView):
+
+    listboard_url = "open_tmg_ae_listboard_url"
+    search_form_url = "open_tmg_ae_listboard_url"
+    status = OPEN
+    listboard_panel_title = "TMG: Open AE Reports"
+    model_wrapper_cls = OpenTmgActionItemModelWrapper
+
+
+class ClosedTmgAeListboardView(StatusTmgAeListboardView):
+
+    listboard_url = "closed_tmg_ae_listboard_url"
+    search_form_url = "closed_tmg_ae_listboard_url"
+    status = CLOSED
+    listboard_panel_title = "TMG: Closed AE Reports"
+    model_wrapper_cls = ClosedTmgActionItemModelWrapper

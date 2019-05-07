@@ -4,10 +4,6 @@
 {% load tz %}
 {% load static %}
 
-{% block listboard_panel_back %}
-    <a class="btn btn-default btn-sm btn-primary" role="button" href="{% url 'ambition_dashboard:ae_home_url' %}"><i class="fas fa-reply"></i></a>
-{% endblock listboard_panel_back %}
-
 
 {% block listboard_table_header %}
 
@@ -26,22 +22,15 @@
 {% endblock listboard_table_header %}
 
 {% block listboard_table_button_column %}
-    <td>
-        <div class="btn-group">
-           <a title="Print AE Initial" role="button" href="?pdf={{result.action_identifier}}" class="btn btn-default btn-sm"><i class="fas fa-file-pdf"></i></a>
-        </div>
+    <td nowrap>
+       <a title="Edit AE Initial" href="{{ result.ae_initial.href }}" class="btn btn-default btn-sm"><i class="fas fa-pencil-alt fa-fw"></i></a>
+       <a title="Print AE Initial" href="?pdf={{result.action_identifier}}" class="btn btn-default btn-sm"><i class="fas fa-file-pdf fa-fw"></i></a>
     </td>
-
 {% endblock %}
 
 {% block listboard_table_columns %}
 
-    <td>{{ result.subject_identifier }}
-        <br>{{ result.parent_reference_obj.site.name|title }}
-        {% if result.death_report_obj %}
-            <BR><span class="label label-info">Deceased</span>
-        {% endif %}
-    </td>
+    <td>{{ result.subject_identifier }}</td>
 
     <td>{{ result.reference_model_name }}
         <br><span class="text text-muted small">{{ utc_date|timeuntil:result.report_datetime.date }} ago</span>
