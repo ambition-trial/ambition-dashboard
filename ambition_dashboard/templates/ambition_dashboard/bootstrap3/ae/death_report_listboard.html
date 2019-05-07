@@ -27,17 +27,11 @@
 
 {% block listboard_table_columns %}
 
-    <td>
-        <div class="btn-group">
-           <a title="Print Death Report" role="button" href="?pdf={{result.action_identifier}}&pk={{result.str_pk}}" class="btn btn-default btn-sm"><i class="fas fa-file-pdf"></i></a>
-        </div>&nbsp;
+    <td nowrap>
+        <a title="Edit Death Report" href="{{ result.death_report.href }}" class="btn btn-default btn-sm"><i class="fas fa-pencil-alt fa-fw"></i></a>
+        <a title="Print Death Report" role="button" href="?pdf={{result.action_identifier}}&pk={{result.str_pk}}" class="btn btn-default btn-sm"><i class="fas fa-file-pdf"></i></a>
     </td>
-    <td>{{ result.subject_identifier }}
-        <br>{{ result.parent_reference_obj.site.name|title }}
-        {% if result.death_report_obj %}
-            <BR><span class="label label-info">Deceased</span>
-        {% endif %}
-    </td>
+    <td>{{ result.subject_identifier }}</td>
 
     <td>{{ result.reference_model_name }}
         <br><span class="text text-muted small">{{ utc_date|timeuntil:result.report_datetime.date }} ago</span>

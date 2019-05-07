@@ -7,7 +7,11 @@ from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMi
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 
-from ...model_wrappers import TmgActionItemModelWrapper
+from ...model_wrappers import TmgActionItemModelWrapper as BaseTmgActionItemModelWrapper
+
+
+class TmgActionItemModelWrapper(BaseTmgActionItemModelWrapper):
+    next_url_name = "tmg_death_listboard_url"
 
 
 class DeathListboardView(
@@ -20,11 +24,11 @@ class DeathListboardView(
 
     listboard_template = "tmg_death_listboard_template"
     listboard_url = "tmg_death_listboard_url"
+    listboard_back_url = "ambition_dashboard:tmg_home_url"
     listboard_panel_style = "warning"
-    listboard_fa_icon = "fa-chalkboard-teacher"
     listboard_model = "edc_action_item.actionitem"
     listboard_model_manager_name = "objects"
-    listboard_panel_title = "TMG Death Reports"
+    listboard_panel_title = "TMG: Death Reports"
     listboard_view_permission_codename = "edc_dashboard.view_tmg_listboard"
     model_wrapper_cls = TmgActionItemModelWrapper
     navbar_name = "ambition_dashboard"
@@ -52,7 +56,8 @@ class DeathListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update({"subject_identifier": kwargs.get("subject_identifier")})
+            options.update(
+                {"subject_identifier": kwargs.get("subject_identifier")})
         return options
 
     def extra_search_options(self, search_term):

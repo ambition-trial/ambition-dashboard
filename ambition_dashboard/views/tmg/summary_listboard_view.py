@@ -12,7 +12,11 @@ from edc_dashboard.view_mixins import (
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 
-from ...model_wrappers import TmgActionItemModelWrapper
+from ...model_wrappers import TmgActionItemModelWrapper as BaseTmgActionItemModelWrapper
+
+
+class TmgActionItemModelWrapper(BaseTmgActionItemModelWrapper):
+    next_url_name = "tmg_summary_listboard_url"
 
 
 class SummaryListboardView(
@@ -27,10 +31,10 @@ class SummaryListboardView(
 
     listboard_template = "tmg_summary_listboard_template"
     listboard_url = "tmg_summary_listboard_url"
+    listboard_back_url = "ambition_dashboard:tmg_home_url"
     listboard_panel_style = "warning"
-    listboard_fa_icon = "fa-chalkboard-teacher"
     listboard_model = "edc_action_item.actionitem"
-    listboard_panel_title = "TMG Summary"
+    listboard_panel_title = "TMG: Events Summary"
     listboard_view_permission_codename = "edc_dashboard.view_tmg_listboard"
 
     model_wrapper_cls = TmgActionItemModelWrapper

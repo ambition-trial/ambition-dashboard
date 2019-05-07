@@ -2,7 +2,8 @@ import arrow
 
 from ambition_prn.constants import DEATH_REPORT_ACTION
 from ambition_prn.models import DeathReport as DeathReportModel
-from ambition_prn.reports import DeathReport
+from ambition_reports.death_report import DeathReport
+from django.utils.translation import gettext as _
 from edc_action_item.model_wrappers import (
     ActionItemModelWrapper as BaseActionItemModelWrapper,
 )
@@ -11,6 +12,13 @@ from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMi
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.safestring import mark_safe
+
+from ...model_wrappers import DeathReportModelWrapper as BaseDeathReportModelWrapper
+
+
+class DeathReportModelWrapper(BaseDeathReportModelWrapper):
+    next_url_name = "death_report_listboard_url"
 
 
 class ActionItemModelWrapper(BaseActionItemModelWrapper):
@@ -20,6 +28,10 @@ class ActionItemModelWrapper(BaseActionItemModelWrapper):
     def __init__(self, model_obj=None, **kwargs):
         self._death_report = None
         super().__init__(model_obj=model_obj, **kwargs)
+
+    @property
+    def death_report(self):
+        return DeathReportModelWrapper(model_obj=self.object.reference_obj)
 
 
 class DeathReportListboardView(
@@ -32,12 +44,18 @@ class DeathReportListboardView(
 
     listboard_template = "death_report_listboard_template"
     listboard_url = "death_report_listboard_url"
-    listboard_panel_style = "warning"
-    # listboard_fa_icon = "fa-heartbeat"
+    listboard_back_url = "ambition_dashboard:ae_home_url"
+    listboard_panel_style = "info"
     listboard_model = "edc_action_item.actionitem"
-    listboard_panel_title = "Death Reports"
+    listboard_panel_title = _("Adverse Events: Death Reports")
     listboard_view_permission_codename = "edc_dashboard.view_ae_listboard"
-    listboard_fa_icon = None
+    listboard_instructions = mark_safe(
+        _("To find a death report, search on the subject's "
+          "study identifier, death report reference number, or AE reference number.")
+        + " <BR>"
+        + _("To download the printable report, click on the PDF button")
+        + " <i class='fas fa-file-pdf fa-fw'></i> "
+        + _("left of the subject's identifier."))
 
     model_wrapper_cls = ActionItemModelWrapper
     navbar_name = "ambition_dashboard"
@@ -91,5 +109,6 @@ class DeathReportListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update({"subject_identifier": kwargs.get("subject_identifier")})
+            options.update(
+                {"subject_identifier": kwargs.get("subject_identifier")})
         return options
