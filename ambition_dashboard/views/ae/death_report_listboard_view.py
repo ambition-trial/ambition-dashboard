@@ -45,7 +45,7 @@ class DeathReportListboardView(
     listboard_template = "death_report_listboard_template"
     listboard_url = "death_report_listboard_url"
     listboard_back_url = "ambition_dashboard:ae_home_url"
-    listboard_panel_style = "info"
+    listboard_panel_style = "default"
     listboard_model = "edc_action_item.actionitem"
     listboard_panel_title = _("Adverse Events: Death Reports")
     listboard_view_permission_codename = "edc_dashboard.view_ae_listboard"

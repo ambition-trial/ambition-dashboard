@@ -60,7 +60,7 @@ class AeListboardView(
     listboard_template = "ae_listboard_template"
     listboard_url = "ae_listboard_url"
     listboard_back_url = 'ambition_dashboard:ae_home_url'
-    listboard_panel_style = "info"
+    listboard_panel_style = "default"
     listboard_model = "edc_action_item.actionitem"
     listboard_panel_title = _(
         "Adverse Events: AE Initial and Follow-up Reports")
