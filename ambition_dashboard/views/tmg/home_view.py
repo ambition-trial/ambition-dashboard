@@ -21,37 +21,52 @@ class HomeView(EdcViewMixin, NavbarViewMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         # summarize closed reports by site
-        summary = ActionItem.objects.filter(
-            action_type__name=AE_TMG_ACTION, status=CLOSED
-        ).values("site__name").annotate(count=Count("status")).order_by("site__name")
+        summary = (
+            ActionItem.objects.filter(action_type__name=AE_TMG_ACTION, status=CLOSED)
+            .values("site__name")
+            .annotate(count=Count("status"))
+            .order_by("site__name")
+        )
 
         # summarize new and open for notice
-        qs = ActionItem.objects.filter(
-            action_type__name=AE_TMG_ACTION, status__in=[NEW, OPEN]
-        ).exclude(site__name=get_current_site(request=self.request).name).values(
-            'status', "site__name").annotate(items=Count("status"))
+        qs = (
+            ActionItem.objects.filter(
+                action_type__name=AE_TMG_ACTION, status__in=[NEW, OPEN]
+            )
+            .exclude(site__name=get_current_site(request=self.request).name)
+            .values("status", "site__name")
+            .annotate(items=Count("status"))
+        )
         notices = []
         for item in qs.order_by("status", "site__name"):
-            notices.append([item.get("site__name"), item.get(
-                "status"), item.get("items")])
+            notices.append(
+                [item.get("site__name"), item.get("status"), item.get("items")]
+            )
 
         new_count = qs.filter(
-            status=NEW,
-            site__name=get_current_site(request=self.request).name).count()
+            status=NEW, site__name=get_current_site(request=self.request).name
+        ).count()
         open_count = ActionItem.objects.filter(
-            action_type__name=AE_TMG_ACTION, status=OPEN,
-            site__name=get_current_site(request=self.request).name).count()
+            action_type__name=AE_TMG_ACTION,
+            status=OPEN,
+            site__name=get_current_site(request=self.request).name,
+        ).count()
         closed_count = ActionItem.objects.filter(
-            action_type__name=AE_TMG_ACTION, status=CLOSED,
-            site__name=get_current_site(request=self.request).name).count()
+            action_type__name=AE_TMG_ACTION,
+            status=CLOSED,
+            site__name=get_current_site(request=self.request).name,
+        ).count()
         total_closed_count = ActionItem.objects.filter(
-            action_type__name=AE_TMG_ACTION, status=CLOSED).count()
-        context.update({
-            "new_count": new_count,
-            "open_count": open_count,
-            "closed_count": closed_count,
-            "total_closed_count": total_closed_count,
-            "summary": summary,
-            "notices": notices,
-        })
+            action_type__name=AE_TMG_ACTION, status=CLOSED
+        ).count()
+        context.update(
+            {
+                "new_count": new_count,
+                "open_count": open_count,
+                "closed_count": closed_count,
+                "total_closed_count": total_closed_count,
+                "summary": summary,
+                "notices": notices,
+            }
+        )
         return context
