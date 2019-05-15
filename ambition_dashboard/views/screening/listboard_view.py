@@ -1,8 +1,6 @@
 import re
 
-from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.utils.decorators import method_decorator
 from edc_dashboard.view_mixins import EdcViewMixin
 from edc_constants.constants import ABNORMAL
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
@@ -14,8 +12,8 @@ from .filters import ListboardViewFilters
 
 
 class ListboardView(
-    NavbarViewMixin,
     EdcViewMixin,
+    NavbarViewMixin,
     ListboardFilterViewMixin,
     SearchFormViewMixin,
     ListboardView,
@@ -34,13 +32,9 @@ class ListboardView(
     model_wrapper_cls = SubjectScreeningModelWrapper
     navbar_name = "ambition_dashboard"
     navbar_selected_item = "screened_subject"
-    ordering = "-modified"
+    ordering = "-report_datetime"
     paginate_by = 10
     search_form_url = "screening_listboard_url"
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
