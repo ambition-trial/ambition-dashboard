@@ -40,10 +40,10 @@ def eligibility_button(subject_screening_model_wrapper):
 
 
 @register.inclusion_tag(
-    f"ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/buttons/consent_button.html",
+    f"ambition_dashboard/bootstrap{settings.EDC_BOOTSTRAP}/buttons/add_consent_button.html",
     takes_context=True,
 )
-def consent_button(context, model_wrapper):
+def add_consent_button(context, model_wrapper):
     title = ["Consent subject to participate."]
     consent_version = model_wrapper.consent.version
     if model_wrapper.object.mental_status == ABNORMAL:
@@ -51,7 +51,7 @@ def consent_button(context, model_wrapper):
     return dict(
         perms=context["perms"],
         screening_identifier=model_wrapper.object.screening_identifier,
-        add_consent_href=model_wrapper.consent.href,
+        href=model_wrapper.consent.href,
         consent_version=consent_version,
         title=" ".join(title),
     )

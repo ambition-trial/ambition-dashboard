@@ -50,12 +50,15 @@ class DeathReportListboardView(
     listboard_panel_title = _("Adverse Events: Death Reports")
     listboard_view_permission_codename = "edc_dashboard.view_ae_listboard"
     listboard_instructions = mark_safe(
-        _("To find a death report, search on the subject's "
-          "study identifier, death report reference number, or AE reference number.")
+        _(
+            "To find a death report, search on the subject's "
+            "study identifier, death report reference number, or AE reference number."
+        )
         + " <BR>"
         + _("To download the printable report, click on the PDF button")
         + " <i class='fas fa-file-pdf fa-fw'></i> "
-        + _("left of the subject's identifier."))
+        + _("left of the subject's identifier.")
+    )
 
     model_wrapper_cls = ActionItemModelWrapper
     navbar_name = "ambition_dashboard"
@@ -109,6 +112,5 @@ class DeathReportListboardView(
         options = super().get_queryset_filter_options(request, *args, **kwargs)
         options.update(action_type__name__in=self.action_type_names)
         if kwargs.get("subject_identifier"):
-            options.update(
-                {"subject_identifier": kwargs.get("subject_identifier")})
+            options.update({"subject_identifier": kwargs.get("subject_identifier")})
         return options
