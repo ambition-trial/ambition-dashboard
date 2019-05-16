@@ -37,6 +37,7 @@ setup(
         'ambition-permissions',
         'ambition-prn',
         'ambition-rando',
+        'ambition-reports',
         'ambition_subject',
         'edc-appointment',
         'edc-consent',
