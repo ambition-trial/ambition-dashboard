@@ -1,12 +1,12 @@
 from ambition_ae.constants import AE_TMG_ACTION
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.db.models.aggregates import Count
 from django.views.generic import TemplateView
 from edc_action_item.models.action_item import ActionItem
 from edc_constants.constants import CLOSED, OPEN, NEW
 from edc_dashboard.view_mixins import EdcViewMixin
 from edc_navbar import NavbarViewMixin
-from django.contrib.sites.shortcuts import get_current_site
-from django.db.models.aggregates import Count
 
 
 class HomeView(EdcViewMixin, NavbarViewMixin, TemplateView):
@@ -43,8 +43,10 @@ class HomeView(EdcViewMixin, NavbarViewMixin, TemplateView):
                 [item.get("site__name"), item.get("status"), item.get("items")]
             )
 
-        new_count = qs.filter(
-            status=NEW, site__name=get_current_site(request=self.request).name
+        new_count = ActionItem.objects.filter(
+            action_type__name=AE_TMG_ACTION,
+            site__name=get_current_site(request=self.request).name,
+            status=NEW,
         ).count()
         open_count = ActionItem.objects.filter(
             action_type__name=AE_TMG_ACTION,
@@ -56,15 +58,16 @@ class HomeView(EdcViewMixin, NavbarViewMixin, TemplateView):
             status=CLOSED,
             site__name=get_current_site(request=self.request).name,
         ).count()
-        total_closed_count = ActionItem.objects.filter(
-            action_type__name=AE_TMG_ACTION, status=CLOSED
+        total_count = ActionItem.objects.filter(
+            action_type__name=AE_TMG_ACTION,
+            site__name=get_current_site(request=self.request).name,
         ).count()
         context.update(
             {
                 "new_count": new_count,
                 "open_count": open_count,
                 "closed_count": closed_count,
-                "total_closed_count": total_closed_count,
+                "total_count": total_count,
                 "summary": summary,
                 "notices": notices,
             }
