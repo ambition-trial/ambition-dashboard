@@ -50,17 +50,18 @@ class HomeView(EdcViewMixin, NavbarViewMixin, TemplateView):
         ).count()
         open_count = ActionItem.objects.filter(
             action_type__name=AE_TMG_ACTION,
-            status=OPEN,
             site__name=get_current_site(request=self.request).name,
+            status=OPEN,
         ).count()
         closed_count = ActionItem.objects.filter(
             action_type__name=AE_TMG_ACTION,
-            status=CLOSED,
             site__name=get_current_site(request=self.request).name,
+            status=CLOSED,
         ).count()
         total_count = ActionItem.objects.filter(
             action_type__name=AE_TMG_ACTION,
             site__name=get_current_site(request=self.request).name,
+            status__in=[NEW, OPEN, CLOSED],
         ).count()
         context.update(
             {
