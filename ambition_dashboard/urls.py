@@ -6,6 +6,7 @@ from .views import (
     AeHomeView,
     AeListboardView,
     ClosedTmgAeListboardView,
+    DataManagerHomeView,
     DeathReportListboardView,
     NewTmgAeListboardView,
     OpenTmgAeListboardView,
@@ -28,6 +29,7 @@ subject_identifier_pattern = django_apps.get_app_config(
 urlpatterns = [
     path("tmg/", TmgHomeView.as_view(), name="tmg_home_url"),
     path("ae/", AeHomeView.as_view(), name="ae_home_url"),
+    path("dm/", DataManagerHomeView.as_view(), name="dm_home_url"),
 ]
 
 urlpatterns += SubjectListboardView.urls(

@@ -1,5 +1,5 @@
 from edc_navbar import NavbarItem, site_navbars, Navbar
-from edc_review_dashboard.navbars import navbar as review_navbar
+from edc_review_dashboard.navbars import navbar_item as review_navbar_item
 
 
 no_url_namespace = False  # True if settings.APP_NAME == "ambition_dashboard" else False
@@ -41,50 +41,26 @@ navbar.append_item(
     )
 )
 
-# navbar.append_item(
-#     NavbarItem(
-#         name="tmg_ae",
-#         label="TMG AE",
-#         # fa_icon='fas fa-chalkboard-teacher',
-#         codename="edc_navbar.nav_tmg_section",
-#         url_name="tmg_ae_listboard_url",
-#         no_url_namespace=no_url_namespace,
-#     )
-# )
-#
-# navbar.append_item(
-#     NavbarItem(
-#         name="tmg_death",
-#         label="TMG Death Reports",
-#         # fa_icon='fas fa-chalkboard-teacher',
-#         codename="edc_navbar.nav_tmg_section",
-#         url_name="tmg_death_listboard_url",
-#         no_url_namespace=no_url_namespace,
-#     )
-# )
-#
-# navbar.append_item(
-#     NavbarItem(
-#         name="tmg_summary",
-#         label="TMG Summary",
-#         # fa_icon='fas fa-chalkboard-teacher',
-#         codename="edc_navbar.nav_tmg_section",
-#         url_name="tmg_summary_listboard_url",
-#         no_url_namespace=no_url_namespace,
-#     )
-# )
-
-for item in review_navbar.items:
-    navbar.append_item(item)
-
+navbar.append_item(review_navbar_item)
 
 navbar.append_item(
     NavbarItem(
         name="ae_home",
         label="AE",
+        title="Adverse Events",
         codename="edc_navbar.nav_ae_section",
         url_name="ambition_dashboard:ae_home_url",
         no_url_namespace=no_url_namespace,
+    )
+)
+
+navbar.append_item(
+    NavbarItem(
+        name="data_manager_home",
+        title="Data Management",
+        label="DM",
+        codename="edc_navbar.nav_data_manager_section",
+        url_name="ambition_dashboard:dm_home_url",
     )
 )
 
