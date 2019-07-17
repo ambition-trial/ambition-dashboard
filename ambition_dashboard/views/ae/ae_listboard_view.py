@@ -6,6 +6,7 @@ from ambition_dashboard.model_wrappers import DeathReportModelWrapper
 from ambition_reports.ae_report import AEReport
 from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from edc_action_item.model_wrappers import (
     ActionItemModelWrapper as BaseActionItemModelWrapper,
@@ -17,7 +18,6 @@ from edc_dashboard.view_mixins import (
 )
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin
-from django.utils.safestring import mark_safe
 
 from ...model_wrappers import AeInitialModelWrapper
 
