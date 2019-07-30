@@ -14,7 +14,8 @@
 
 <span class="text clearfix">
 <a class="btn btn-default btn-sm btn-primary" role="button" href="{% url listboard_back_url %}"><i class="fas fa-reply"></i></a>
-&nbsp;{{ listboard_panel_title }}&nbsp; {% if results|length > 0 %}&nbsp;<span class="label label-{% if status == CLOSED %}success{% else %}danger{% endif %}">{{ results|length }}</span>{% endif %}               
+&nbsp;{{ listboard_panel_title }}&nbsp; {% if results|length > 0 %}&nbsp;<span class="label label-{% if status == CLOSED %}success{% else %}danger{% endif %}">{{ results|length }} of {{ paginator.count }}</span>{% endif %}
+
 <span class="pull-right">
     {% include 'edc_dashboard/bootstrap3/search_form.html' %}
 </span></span>
