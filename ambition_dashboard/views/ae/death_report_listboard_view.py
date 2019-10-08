@@ -1,12 +1,12 @@
 import arrow
 
-from ambition_prn.constants import DEATH_REPORT_ACTION
 from ambition_prn.models import DeathReport as DeathReportModel
 from ambition_reports.death_report import DeathReport
 from django.utils.translation import gettext as _
 from edc_action_item.model_wrappers import (
     ActionItemModelWrapper as BaseActionItemModelWrapper,
 )
+from edc_adverse_event.constants import DEATH_REPORT_ACTION
 from edc_dashboard.view_mixins import EdcViewMixin
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView

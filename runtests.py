@@ -22,6 +22,8 @@ DEFAULT_SETTINGS = DefaultTestSettings(
     SUBJECT_VISIT_MODEL="ambition_subject.subjectvisit",
     SUBJECT_REQUISITION_MODEL="ambition_subject.subjectrequisition",
     SUBJECT_CONSENT_MODEL='ambition_subject.subjectconsent',
+    ADVERSE_EVENT_ADMIN_SITE="ambition_ae_admin",
+    ADVERSE_EVENT_APP_LABEL="ambition_ae",
     RANDOMIZATION_LIST_PATH=os.path.join(
         base_dir, app_name, "tests", "test_randomization_list.csv"),
     INSTALLED_APPS=[
@@ -35,6 +37,7 @@ DEFAULT_SETTINGS = DefaultTestSettings(
         "django_crypto_fields.apps.AppConfig",
         "django_revision.apps.AppConfig",
         "edc_action_item.apps.AppConfig",
+        "edc_adverse_event.apps.AppConfig",
         "edc_auth.apps.AppConfig",
         "edc_consent.apps.AppConfig",
         "edc_dashboard.apps.AppConfig",
@@ -53,6 +56,7 @@ DEFAULT_SETTINGS = DefaultTestSettings(
         "edc_registration.apps.AppConfig",
         "edc_review_dashboard.apps.AppConfig",
         "edc_subject_dashboard.apps.AppConfig",
+        "edc_sites.apps.AppConfig",
         "edc_timepoint.apps.AppConfig",
         "edc_visit_schedule.apps.AppConfig",
         "ambition_ae.apps.AppConfig",

@@ -1,10 +1,10 @@
 import arrow
 
-from ambition_ae.action_items import AE_TMG_ACTION
 from ambition_permissions import TMG
 from django.core.exceptions import ObjectDoesNotExist
-from edc_dashboard.view_mixins import EdcViewMixin
+from edc_adverse_event.constants import AE_TMG_ACTION
 from edc_constants.constants import CLOSED, NEW, OPEN
+from edc_dashboard.view_mixins import EdcViewMixin
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
 from edc_navbar import NavbarViewMixin

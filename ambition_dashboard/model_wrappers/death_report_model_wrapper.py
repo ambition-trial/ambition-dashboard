@@ -1,7 +1,7 @@
-from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION
 from ambition_prn.models import DeathReportTmg
 from django.core.exceptions import ObjectDoesNotExist
 from edc_action_item.models import ActionItem
+from edc_adverse_event.constants import DEATH_REPORT_TMG_ACTION
 from edc_model_wrapper import ModelWrapper
 
 from .death_report_tmg_model_wrapper import DeathReportTmgModelWrapper
