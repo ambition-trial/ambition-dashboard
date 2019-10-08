@@ -1,9 +1,9 @@
-from ambition_ae.constants import AE_TMG_ACTION
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.aggregates import Count
 from django.views.generic import TemplateView
 from edc_action_item.models.action_item import ActionItem
+from edc_adverse_event.constants import AE_TMG_ACTION
 from edc_constants.constants import CLOSED, OPEN, NEW
 from edc_dashboard.view_mixins import EdcViewMixin
 from edc_navbar import NavbarViewMixin

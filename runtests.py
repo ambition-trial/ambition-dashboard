@@ -22,6 +22,8 @@ DEFAULT_SETTINGS = DefaultTestSettings(
     SUBJECT_VISIT_MODEL="ambition_subject.subjectvisit",
     SUBJECT_REQUISITION_MODEL="ambition_subject.subjectrequisition",
     SUBJECT_CONSENT_MODEL='ambition_subject.subjectconsent',
+    ADVERSE_EVENT_ADMIN_SITE="ambition_ae_admin",
+    ADVERSE_EVENT_APP_LABEL="ambition_ae",
     RANDOMIZATION_LIST_PATH=os.path.join(
         base_dir, app_name, "tests", "test_randomization_list.csv"),
     INSTALLED_APPS=[

@@ -1,9 +1,9 @@
 import arrow
 
-from ambition_ae.action_items import AE_TMG_ACTION, AE_FOLLOWUP_ACTION
 from ambition_permissions import TMG
-from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION, DEATH_REPORT_ACTION
+from edc_adverse_event.constants import DEATH_REPORT_TMG_ACTION, DEATH_REPORT_ACTION
 from django.core.exceptions import ObjectDoesNotExist
+from edc_adverse_event.constants import AE_TMG_ACTION, AE_FOLLOWUP_ACTION
 from edc_dashboard.view_mixins import (
     EdcViewMixin,
     ListboardFilterViewMixin,

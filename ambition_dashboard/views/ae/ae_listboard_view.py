@@ -1,9 +1,8 @@
 import arrow
 
-from ambition_ae.action_items import AE_INITIAL_ACTION
 from ambition_ae.models import AeInitial
 from ambition_dashboard.model_wrappers import DeathReportModelWrapper
-from ambition_reports.ae_report import AEReport
+from ambition_reports.ae_report import AeReport
 from django.apps import apps as django_apps
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.safestring import mark_safe
@@ -11,6 +10,7 @@ from django.utils.translation import gettext as _
 from edc_action_item.model_wrappers import (
     ActionItemModelWrapper as BaseActionItemModelWrapper,
 )
+from edc_adverse_event.constants import AE_INITIAL_ACTION
 from edc_dashboard.view_mixins import (
     EdcViewMixin,
     ListboardFilterViewMixin,
@@ -106,7 +106,7 @@ class AeListboardView(
         except ObjectDoesNotExist:
             pass
         else:
-            report = AEReport(
+            report = AeReport(
                 ae_initial=ae_initial,
                 subject_identifier=ae_initial.subject_identifier,
                 user=self.request.user,

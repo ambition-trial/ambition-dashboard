@@ -1,7 +1,7 @@
 import re
 
-from ambition_prn.action_items import DEATH_REPORT_TMG_ACTION
 from django.db.models import Q
+from edc_adverse_event.constants import DEATH_REPORT_TMG_ACTION
 from edc_dashboard.view_mixins import EdcViewMixin
 from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView as BaseListboardView
