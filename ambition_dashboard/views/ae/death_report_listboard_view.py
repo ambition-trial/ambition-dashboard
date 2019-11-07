@@ -15,7 +15,5 @@ class CustomDeathReport(DeathReport):
 class DeathReportListboardView(DeathReportListboardViewMixin):
 
     listboard_back_url = "ambition_dashboard:ae_home_url"
-    navbar_name = "ambition_dashboard"
-    navbar_selected_item = "ae_home"
 
     pdf_report_cls = CustomDeathReport

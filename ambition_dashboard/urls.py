@@ -1,21 +1,23 @@
 from django.apps import apps as django_apps
 from django.urls.conf import path
+from edc_adverse_event.views import (
+    AeHomeView,
+    TmgHomeView,
+    ClosedTmgAeListboardView,
+    NewTmgAeListboardView,
+    OpenTmgAeListboardView,
+)
+from edc_data_manager.views import HomeView as DataManagerHomeView
+from edc_review_dashboard.views import SubjectReviewListboardView
 
 from .patterns import screening_identifier
 from .views import (
-    AeHomeView,
     AeListboardView,
-    ClosedTmgAeListboardView,
-    DataManagerHomeView,
     DeathReportListboardView,
-    NewTmgAeListboardView,
-    OpenTmgAeListboardView,
     ScreeningListboardView,
     SubjectDashboardView,
     SubjectListboardView,
-    SubjectReviewListboardView,
     TmgDeathListboardView,
-    TmgHomeView,
     TmgSummaryListboardView,
 )
 

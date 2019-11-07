@@ -1,10 +1,11 @@
 from edc_navbar import NavbarItem, site_navbars, Navbar
 from edc_review_dashboard.navbars import navbar_item as review_navbar_item
+from edc_navbar.get_default_navbar import get_default_navbar
 
 
 no_url_namespace = False  # True if settings.APP_NAME == "ambition_dashboard" else False
 
-navbar = Navbar(name="ambition_dashboard")
+navbar = Navbar(name=get_default_navbar())
 
 navbar.append_item(
     NavbarItem(

@@ -17,6 +17,5 @@ class CustomAeReport(AeReport):
 class AeListboardView(AeListboardViewMixin):
 
     listboard_back_url = "ambition_dashboard:ae_home_url"
-    navbar_name = "ambition_dashboard"
 
     pdf_report_cls = CustomAeReport
