@@ -30,7 +30,6 @@ class ListboardView(
     alternate_search_attr = "screening_identifier"
 
     model_wrapper_cls = SubjectScreeningModelWrapper
-    navbar_name = "ambition_dashboard"
     navbar_selected_item = "screened_subject"
     ordering = "-report_datetime"
     paginate_by = 10

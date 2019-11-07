@@ -1,10 +1,6 @@
-from .ae import AeHomeView, AeListboardView, DeathReportListboardView
-from .data_manager_view import HomeView as DataManagerHomeView
+from .ae import AeListboardView, DeathReportListboardView
 from .screening import ListboardView as ScreeningListboardView
 from .subject import DashboardView as SubjectDashboardView
 from .subject import ListboardView as SubjectListboardView
-from .subject_review_listboard import SubjectReviewListboardView
-from .tmg import NewTmgAeListboardView, OpenTmgAeListboardView, ClosedTmgAeListboardView
-from .tmg import DeathListboardView as TmgDeathListboardView
-from .tmg import TmgHomeView
-from .tmg import SummaryListboardView as TmgSummaryListboardView
+from .tmg import TmgSummaryListboardView
+from .tmg import TmgDeathListboardView
